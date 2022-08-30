@@ -12,7 +12,9 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
-    public DbSet<PoliticaAccion> PoliticaAccion { get; set; }
+    public DbSet<PoliticaAccion> PoliticaAcciones { get; set; }
+    public DbSet<TipoInstitucion> TipoInstituciones { get; set; }
+    public DbSet<NivelSeguimiento> NivelesSeguimiento { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

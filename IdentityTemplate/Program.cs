@@ -9,7 +9,9 @@ var connectionString = builder.Configuration.GetConnectionString("ApplicationDBC
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(connectionString));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
+     options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDBContext>();
 
 // Add services to the container.
@@ -23,6 +25,18 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<ApplicationDBContext>();
+        context.Database.Migrate();
+
+        //Revisar el archivo appsettings.json para ver la contraseña
+        var testUserPw = builder.Configuration["ConnectionStrings:DefaultPassword"];
+
+        await SeedData.Initialize(services, testUserPw);
+    }
 }
 
 app.UseHttpsRedirection();
