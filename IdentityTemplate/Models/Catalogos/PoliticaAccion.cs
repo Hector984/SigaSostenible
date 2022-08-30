@@ -2,12 +2,8 @@
 {
     public class PoliticaAccion
     {
-        public PoliticaAccion()
-        {
-            PoliticaAccionId = new Guid().ToString();
-        }
 
-        public string PoliticaAccionId { get; set; }
+        public int PoliticaAccionId { get; set; }
         public string NombrePoliticaAccion { get; set; }
     }
 

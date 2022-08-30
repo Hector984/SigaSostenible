@@ -111,32 +111,26 @@ namespace IdentityTemplate.Areas.Identity.Data
            
                 new TipoInstitucion
                 {
-                    TipoInstitucionId = new Guid().ToString(),
                     Institucion = Institucion.Federal
                 },
                 new TipoInstitucion
                 {
-                    TipoInstitucionId = new Guid().ToString(),
                     Institucion = Institucion.Estatal
                 },
                  new TipoInstitucion
                  {
-                     TipoInstitucionId = new Guid().ToString(),
                      Institucion = Institucion.Municipal
                  },
                  new TipoInstitucion
                  {
-                     TipoInstitucionId = new Guid().ToString(),
                      Institucion = Institucion.Productores
                  },
                  new TipoInstitucion
                  {
-                     TipoInstitucionId = new Guid().ToString(),
                      Institucion = Institucion.Academia
                  },
                  new TipoInstitucion
                  {
-                     TipoInstitucionId = new Guid().ToString(),
                      Institucion = Institucion.SociedadCivil
                  }
              );
@@ -153,28 +147,23 @@ namespace IdentityTemplate.Areas.Identity.Data
             
                 new NivelSeguimiento
                 {
-                    NivelSeguimientoId = new Guid().ToString(),
                     Nivel = Niveles.Nacional
                 },
 
                 new NivelSeguimiento
                 {
-                    NivelSeguimientoId = new Guid().ToString(),
                     Nivel = Niveles.Estatal
                 },
                  new NivelSeguimiento
                  {
-                     NivelSeguimientoId = new Guid().ToString(),
                      Nivel = Niveles.Regional
                  },
                  new NivelSeguimiento
                  {
-                     NivelSeguimientoId = new Guid().ToString(),
                      Nivel = Niveles.Municipal
                  },
                  new NivelSeguimiento
                  {
-                     NivelSeguimientoId = new Guid().ToString(),
                      Nivel = Niveles.Local
                  }
              );
