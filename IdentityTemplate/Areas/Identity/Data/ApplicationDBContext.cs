@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using IdentityTemplate.Models.Catalogs;
 
 namespace IdentityTemplate.Data;
 
@@ -11,11 +12,13 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
+    public DbSet<PoliticaAccion> PoliticaAccion { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
+        #region Identity Tables
         builder.Entity<ApplicationUser>(b =>
         {
 
@@ -83,5 +86,28 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
             b.Property(ut => ut.Value).HasColumnType("varchar").HasMaxLength(256);
             b.Property(ut => ut.UserId).HasColumnType("varchar").HasMaxLength(256);
         });
+        #endregion Identity tables
+
+        #region Tablas catalogos
+        builder.Entity<TipoInstitucion>(b =>
+        {
+            b.Property(ti => ti.TipoInstitucionId).HasColumnType("varchar");
+            b.Property(ti => ti.Institucion).HasColumnType("varchar");
+        });
+
+        builder.Entity<NivelSeguimiento>(b =>
+        {
+            b.Property(ns => ns.NivelSeguimientoId).HasColumnType("varchar");
+            b.Property(ns => ns.Nivel).HasColumnType("varchar");
+        });
+
+        builder.Entity<PoliticaAccion>(b =>
+        {
+            b.Property(pa => pa.PoliticaAccionId).HasColumnType("varchar");
+            b.Property(pa => pa.NombrePoliticaAccion).HasColumnType("varchar");
+        });
+        #endregion Tablas catalogos
     }
+
+
 }
