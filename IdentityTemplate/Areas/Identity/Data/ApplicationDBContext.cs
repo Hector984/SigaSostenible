@@ -11,6 +11,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
         : base(options)
     {
+        
     }
     public DbSet<PoliticaAccion> PoliticaAcciones { get; set; }
     public DbSet<TipoInstitucion> TipoInstituciones { get; set; }

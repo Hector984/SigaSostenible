@@ -16,7 +16,7 @@ namespace IdentityTemplate.Areas.Identity.Data
 
                 await EnsureRole(serviceProvider, admin, "AdministradorNacional");
 
-                SeedDB(context, admin);
+                SeedDB(context);
             }
 
         }
@@ -26,7 +26,7 @@ namespace IdentityTemplate.Areas.Identity.Data
         {
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
-            ApplicationUser user = await userManager.FindByNameAsync(UserName);
+            ApplicationUser user = await userManager.FindByEmailAsync(UserName);
 
             if (user == null)
             {
@@ -74,7 +74,7 @@ namespace IdentityTemplate.Areas.Identity.Data
                 #endregion
             }
 
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
             //if (userManager == null)
             //{
@@ -88,6 +88,9 @@ namespace IdentityTemplate.Areas.Identity.Data
                 throw new Exception("The testUserPw password was probably not strong enough!");
             }
 
+            var roleUser = serviceProvider.GetService<RoleManager<IdentityUserRole<string>>>();
+
+
             IR = await userManager.AddToRoleAsync(user, role);
 
             return IR;
@@ -96,71 +99,82 @@ namespace IdentityTemplate.Areas.Identity.Data
         #endregion
 
         #region seed database method
-        public static void SeedDB(ApplicationDBContext context, string adminID)
+        public static void SeedDB(ApplicationDBContext context)
         {
-            if (context.TipoInstituciones.Any())
-            {
-                return;   // DB has been seeded
-            }
+            //if (context.TipoInstituciones.Count() > 0)
+            //{
+            //    return;   // DB has been seeded
+            //}
 
             #region Inserta las instituciones
             context.TipoInstituciones.AddRange(
            
                 new TipoInstitucion
                 {
+                    TipoInstitucionId = new Guid().ToString(),
                     Institucion = Institucion.Federal
                 },
                 new TipoInstitucion
                 {
+                    TipoInstitucionId = new Guid().ToString(),
                     Institucion = Institucion.Estatal
                 },
                  new TipoInstitucion
                  {
+                     TipoInstitucionId = new Guid().ToString(),
                      Institucion = Institucion.Municipal
                  },
                  new TipoInstitucion
                  {
+                     TipoInstitucionId = new Guid().ToString(),
                      Institucion = Institucion.Productores
                  },
                  new TipoInstitucion
                  {
+                     TipoInstitucionId = new Guid().ToString(),
                      Institucion = Institucion.Academia
                  },
                  new TipoInstitucion
                  {
+                     TipoInstitucionId = new Guid().ToString(),
                      Institucion = Institucion.SociedadCivil
                  }
              );
             #endregion
 
 
-            if (context.NivelesSeguimiento.Any())
-            {
-                return;   // DB has been seeded
-            }
+            //if (context.NivelesSeguimiento.Count() > 0)
+            //{
+            //    return;   // DB has been seeded
+            //}
 
             #region Inserta los niveles de seguimiento
             context.NivelesSeguimiento.AddRange(
             
                 new NivelSeguimiento
                 {
+                    NivelSeguimientoId = new Guid().ToString(),
                     Nivel = Niveles.Nacional
                 },
 
                 new NivelSeguimiento
                 {
+                    NivelSeguimientoId = new Guid().ToString(),
                     Nivel = Niveles.Estatal
                 },
                  new NivelSeguimiento
                  {
+                     NivelSeguimientoId = new Guid().ToString(),
                      Nivel = Niveles.Regional
                  },
                  new NivelSeguimiento
                  {
+                     NivelSeguimientoId = new Guid().ToString(),
                      Nivel = Niveles.Municipal
                  },
                  new NivelSeguimiento
                  {
+                     NivelSeguimientoId = new Guid().ToString(),
                      Nivel = Niveles.Local
                  }
              );

@@ -22,18 +22,18 @@ namespace IdentityTemplate.Controllers.Catalogos
         // GET: PoliticaAcciones
         public async Task<IActionResult> Index()
         {
-              return View(await _context.PoliticaAccion.ToListAsync());
+              return View(await _context.PoliticaAcciones.ToListAsync());
         }
 
         // GET: PoliticaAcciones/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null || _context.PoliticaAccion == null)
+            if (id == null || _context.PoliticaAcciones == null)
             {
                 return NotFound();
             }
 
-            var politicaAccion = await _context.PoliticaAccion
+            var politicaAccion = await _context.PoliticaAcciones
                 .FirstOrDefaultAsync(m => m.PoliticaAccionId == id);
             if (politicaAccion == null)
             {
@@ -68,12 +68,12 @@ namespace IdentityTemplate.Controllers.Catalogos
         // GET: PoliticaAcciones/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || _context.PoliticaAccion == null)
+            if (id == null || _context.PoliticaAcciones == null)
             {
                 return NotFound();
             }
 
-            var politicaAccion = await _context.PoliticaAccion.FindAsync(id);
+            var politicaAccion = await _context.PoliticaAcciones.FindAsync(id);
             if (politicaAccion == null)
             {
                 return NotFound();
@@ -119,12 +119,12 @@ namespace IdentityTemplate.Controllers.Catalogos
         // GET: PoliticaAcciones/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || _context.PoliticaAccion == null)
+            if (id == null || _context.PoliticaAcciones == null)
             {
                 return NotFound();
             }
 
-            var politicaAccion = await _context.PoliticaAccion
+            var politicaAccion = await _context.PoliticaAcciones
                 .FirstOrDefaultAsync(m => m.PoliticaAccionId == id);
             if (politicaAccion == null)
             {
@@ -139,14 +139,14 @@ namespace IdentityTemplate.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.PoliticaAccion == null)
+            if (_context.PoliticaAcciones == null)
             {
                 return Problem("Entity set 'ApplicationDBContext.PoliticaAccion'  is null.");
             }
-            var politicaAccion = await _context.PoliticaAccion.FindAsync(id);
+            var politicaAccion = await _context.PoliticaAcciones.FindAsync(id);
             if (politicaAccion != null)
             {
-                _context.PoliticaAccion.Remove(politicaAccion);
+                _context.PoliticaAcciones.Remove(politicaAccion);
             }
             
             await _context.SaveChangesAsync();
@@ -155,7 +155,7 @@ namespace IdentityTemplate.Controllers.Catalogos
 
         private bool PoliticaAccionExists(string id)
         {
-          return _context.PoliticaAccion.Any(e => e.PoliticaAccionId == id);
+          return _context.PoliticaAcciones.Any(e => e.PoliticaAccionId == id);
         }
     }
 }
