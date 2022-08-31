@@ -12,7 +12,9 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
-    public DbSet<PoliticaAccion> PoliticaAccion { get; set; }
+    public DbSet<PoliticaAccion> PoliticaAcciones { get; set; }
+    public DbSet<NivelSeguimiento> NivelesSeguimiento { get; set; }
+    public DbSet<TipoInstitucion> TipoInstituciones { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -91,20 +93,38 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
         #region Tablas catalogos
         builder.Entity<TipoInstitucion>(b =>
         {
-            b.Property(ti => ti.TipoInstitucionId).HasColumnType("varchar");
-            b.Property(ti => ti.Institucion).HasColumnType("varchar");
+            b.HasKey(ti => ti.TipoInstitucionId);
+
+            b.Property(ti => ti.TipoInstitucionId).UseIdentityByDefaultColumn();
+
+            b.HasIndex(ti => ti.Institucion).HasDatabaseName("Institucionindex").IsUnique();
+
+            b.Property(ti => ti.Institucion).HasColumnType("varchar").HasMaxLength(256);
         });
 
         builder.Entity<NivelSeguimiento>(b =>
         {
-            b.Property(ns => ns.NivelSeguimientoId).HasColumnType("varchar");
-            b.Property(ns => ns.Nivel).HasColumnType("varchar");
+            b.HasKey(ns => ns.NivelSeguimientoId);
+
+            b.Property(ns => ns.NivelSeguimientoId).UseIdentityByDefaultColumn();
+
+            b.HasIndex(ns => ns.Nivel).HasDatabaseName("NivelIndex").IsUnique();
+
+            b.Property(ns => ns.Nivel).HasColumnType("varchar").HasMaxLength(256);
         });
 
         builder.Entity<PoliticaAccion>(b =>
         {
-            b.Property(pa => pa.PoliticaAccionId).HasColumnType("varchar");
-            b.Property(pa => pa.NombrePoliticaAccion).HasColumnType("varchar");
+            b.HasKey(pa => pa.PoliticaAccionId);
+
+            b.Property(pa => pa.PoliticaAccionId).UseIdentityByDefaultColumn();
+
+            b.HasIndex(pa => pa.NombrePoliticaAccion)
+             .HasDatabaseName("NombrePoliticaAccionIndex").IsUnique();
+
+            b.Property(pa => pa.NombrePoliticaAccion)
+             .HasColumnType("varchar")
+             .HasMaxLength(256);
         });
         #endregion Tablas catalogos
     }
