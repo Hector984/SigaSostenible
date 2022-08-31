@@ -94,19 +94,19 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
         #region Tablas catalogos
         builder.Entity<TipoInstitucion>(b =>
         {
-            b.Property(ti => ti.TipoInstitucionId).HasColumnType("varchar");
+            b.Property(ti => ti.TipoInstitucionId);
             b.Property(ti => ti.Institucion).HasColumnType("varchar");
         });
 
         builder.Entity<NivelSeguimiento>(b =>
         {
-            b.Property(ns => ns.NivelSeguimientoId).HasColumnType("varchar");
+            b.Property(ns => ns.NivelSeguimientoId);
             b.Property(ns => ns.Nivel).HasColumnType("varchar");
         });
 
         builder.Entity<PoliticaAccion>(b =>
         {
-            b.Property(pa => pa.PoliticaAccionId).HasColumnType("varchar");
+            b.Property(pa => pa.PoliticaAccionId);
             b.Property(pa => pa.NombrePoliticaAccion).HasColumnType("varchar");
         });
         #endregion Tablas catalogos
