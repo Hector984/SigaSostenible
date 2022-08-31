@@ -2,6 +2,7 @@
 using IdentityTemplate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IdentityTemplate.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220830193028_Catalogos")]
+    partial class Catalogos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,7 +105,6 @@ namespace IdentityTemplate.Migrations
             modelBuilder.Entity("IdentityTemplate.Models.Catalogs.NivelSeguimiento", b =>
                 {
                     b.Property<string>("NivelSeguimientoId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar");
 
                     b.Property<string>("Nivel")
@@ -112,13 +113,12 @@ namespace IdentityTemplate.Migrations
 
                     b.HasKey("NivelSeguimientoId");
 
-                    b.ToTable("NivelesSeguimiento");
+                    b.ToTable("NivelSeguimiento");
                 });
 
             modelBuilder.Entity("IdentityTemplate.Models.Catalogs.PoliticaAccion", b =>
                 {
                     b.Property<string>("PoliticaAccionId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar");
 
                     b.Property<string>("NombrePoliticaAccion")
@@ -126,13 +126,12 @@ namespace IdentityTemplate.Migrations
 
                     b.HasKey("PoliticaAccionId");
 
-                    b.ToTable("PoliticaAcciones");
+                    b.ToTable("PoliticaAccion");
                 });
 
             modelBuilder.Entity("IdentityTemplate.Models.Catalogs.TipoInstitucion", b =>
                 {
                     b.Property<string>("TipoInstitucionId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar");
 
                     b.Property<string>("Institucion")
@@ -141,7 +140,7 @@ namespace IdentityTemplate.Migrations
 
                     b.HasKey("TipoInstitucionId");
 
-                    b.ToTable("TipoInstituciones");
+                    b.ToTable("TipoInstitucion");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
