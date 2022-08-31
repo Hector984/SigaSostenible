@@ -101,10 +101,10 @@ namespace IdentityTemplate.Areas.Identity.Data
         #region seed database method
         public static void SeedDB(ApplicationDBContext context)
         {
-            //if (context.TipoInstituciones.Count() > 0)
-            //{
-            //    return;   // DB has been seeded
-            //}
+            if (context.TipoInstituciones.Any())
+            {
+                return;   // DB has been seeded
+            }
 
             #region Inserta las instituciones
             context.TipoInstituciones.AddRange(
@@ -137,10 +137,10 @@ namespace IdentityTemplate.Areas.Identity.Data
             #endregion
 
 
-            //if (context.NivelesSeguimiento.Count() > 0)
-            //{
-            //    return;   // DB has been seeded
-            //}
+            if (context.NivelesSeguimiento.Any())
+            {
+                return;   // DB has been seeded
+            }
 
             #region Inserta los niveles de seguimiento
             context.NivelesSeguimiento.AddRange(

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using IdentityTemplate.Data;
 using IdentityTemplate.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDBContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDBContextConnection' not found.");
@@ -16,23 +17,33 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddRazorPages();
 
+#region Fallback authorization policy
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+//        .RequireAuthenticatedUser()
+//        .Build();
+//});
+#endregion
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-//Seeder de la base de datos
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ApplicationDBContext>();
-    context.Database.Migrate();
+#region Seeder de la base de datos
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var context = services.GetRequiredService<ApplicationDBContext>();
+//    context.Database.Migrate();
 
-    //Revisar el archivo appsettings.json para ver la contraseña
-    var testUserPw = builder.Configuration["ConnectionStrings:DefaultPassword"];
+//    //Revisar el archivo appsettings.json para ver la contraseña
+//    var testUserPw = builder.Configuration["ConnectionStrings:DefaultPassword"];
 
-    await SeedData.Initialize(services, testUserPw);
-}
+//    await SeedData.Initialize(services, testUserPw);
+//}
+#endregion
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
