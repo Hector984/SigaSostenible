@@ -17,6 +17,14 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddRazorPages();
 
+#region Ruta por defecto para usuarios no autenticados
+builder.Services.ConfigureApplicationCookie( b => 
+
+    b.LoginPath = "/Cuenta/Login"
+
+);
+#endregion
+
 #region Fallback authorization policy
 //builder.Services.AddAuthorization(options =>
 //{
@@ -30,6 +38,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
 
 #region Seeder de la base de datos
 //using (var scope = app.Services.CreateScope())
@@ -65,7 +74,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Cuenta}/{action=Login}/{id?}");
 
 app.MapRazorPages();
 

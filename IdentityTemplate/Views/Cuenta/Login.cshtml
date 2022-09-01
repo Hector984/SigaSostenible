@@ -1,0 +1,93 @@
+﻿@using IdentityTemplate.Models.Cuenta
+
+@model LoginUser
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+
+<div class="row d-flex justify-content-between">
+
+    <div class="col-md-6">
+        <section>
+
+            <h2 class="pt-5">Bienvenido al Acceso del</h2>
+
+            <hr />
+
+            <div>
+                <h1 style="font-size: 70px;">
+                    <span>SIGA</span>
+                    <span style="color: #BF9742">Sostenible</span>
+                </h1>
+            </div>
+
+            <div>
+                <p class="fw-bold fs-4 text-center">Sistema de Seguimiento de Políticas y Acciones sobre Sostenibilidad y Cambio Climático</p>
+            </div>
+            
+        </section>
+    </div>
+
+    <div class="col-md-6">
+        <section class="bg-secondary bg-opacity-25 p-5 rounded">
+
+            <h2>Inicio de sesión</h2>
+
+            <hr />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <form asp-controller="Cuenta" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <p>
+                       <a id="forgot-password" class="text-success text-decoration-none" href="#">¿Olvide mi contraseña?</a>
+                    </p>
+                </div>
+                
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-success">Iniciar Sesión</button>
+                </div>
+
+            </form>
+
+            
+        </section>
+
+        @*<p class="mt-4 bg-secondary bg-opacity-25 p-3 ps-5 rounded">
+          <a id="register" class="text-success text-decoration-none" href="#">Registrarse</a>
+        </p>*@
+
+        <p class="mt-4 bg-secondary bg-opacity-25 p-3 ps-5 rounded">
+          <a id="register" class="text-success text-decoration-none" href="#">Validar Constancias</a>
+        </p>
+
+        
+
+    </div>
+
+    <hr/>
+
+    <p class="text-center">AGRICULTURA - ALGUNOS DERECHOS RESERVADOS &copy; 2022 - <span class="text-success">AVISO DE PRIVACIDAD</span></p>
+
+    <hr/>
+
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
