@@ -1,4 +1,4 @@
-﻿@model IdentityTemplate.Models.Catalogs.PoliticaAccion
+﻿@model IdentityTemplate.Models.Catalogs.Politica
 
 @{
     ViewData["Title"] = "Delete";
@@ -21,7 +21,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="PoliticaAccionId" />
+        <input type="hidden" asp-for="PoliticaId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

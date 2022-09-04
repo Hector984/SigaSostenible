@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace IdentityTemplate.Controllers
 {
     [Authorize(Roles = "AdministradorNacional")]
-    public class PoliticaAccionController : Controller
+    public class PoliticaController : Controller
     {
         private readonly ApplicationDBContext _context;
 
-        public PoliticaAccionController(ApplicationDBContext context)
+        public PoliticaController(ApplicationDBContext context)
         {
             _context = context;
         }
@@ -36,7 +36,7 @@ namespace IdentityTemplate.Controllers
             }
 
             var politicaAccion = await _context.PoliticaAcciones
-                .FirstOrDefaultAsync(m => m.PoliticaAccionId == id);
+                .FirstOrDefaultAsync(m => m.PoliticaId == id);
 
             if (politicaAccion == null)
             {
@@ -57,7 +57,7 @@ namespace IdentityTemplate.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PoliticaAccionId,NombrePoliticaAccion")] PoliticaAccion politicaAccion)
+        public async Task<IActionResult> Create([Bind("PoliticaAccionId,NombrePoliticaAccion")] Politica politicaAccion)
         {
             if (ModelState.IsValid)
             {
@@ -89,9 +89,9 @@ namespace IdentityTemplate.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PoliticaAccionId,NombrePoliticaAccion")] PoliticaAccion politicaAccion)
+        public async Task<IActionResult> Edit(int id, [Bind("PoliticaAccionId,NombrePoliticaAccion")] Politica politicaAccion)
         {
-            if (id != politicaAccion.PoliticaAccionId)
+            if (id != politicaAccion.PoliticaId)
             {
                 return NotFound();
             }
@@ -105,7 +105,7 @@ namespace IdentityTemplate.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PoliticaAccionExists(politicaAccion.PoliticaAccionId))
+                    if (!PoliticaAccionExists(politicaAccion.PoliticaId))
                     {
                         return NotFound();
                     }
@@ -128,7 +128,7 @@ namespace IdentityTemplate.Controllers
             }
 
             var politicaAccion = await _context.PoliticaAcciones
-                .FirstOrDefaultAsync(m => m.PoliticaAccionId == id);
+                .FirstOrDefaultAsync(m => m.PoliticaId == id);
             if (politicaAccion == null)
             {
                 return NotFound();
@@ -158,7 +158,7 @@ namespace IdentityTemplate.Controllers
 
         private bool PoliticaAccionExists(int id)
         {
-          return _context.PoliticaAcciones.Any(e => e.PoliticaAccionId == id);
+          return _context.PoliticaAcciones.Any(e => e.PoliticaId == id);
         }
     }
 }

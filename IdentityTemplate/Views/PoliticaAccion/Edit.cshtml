@@ -1,4 +1,4 @@
-﻿@model IdentityTemplate.Models.Catalogs.PoliticaAccion
+﻿@model IdentityTemplate.Models.Catalogs.Politica
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PoliticaAccionId" />
+            <input type="hidden" asp-for="PoliticaId" />
             <div class="form-group">
                 <label asp-for="NombrePoliticaAccion" class="control-label"></label>
                 <input asp-for="NombrePoliticaAccion" class="form-control" />
