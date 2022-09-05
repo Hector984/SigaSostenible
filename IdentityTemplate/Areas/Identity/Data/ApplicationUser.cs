@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +12,23 @@ namespace IdentityTemplate.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the ApplicationUser class
 public class ApplicationUser : IdentityUser
 {
+    [Required(ErrorMessage = "El campo {0} es requerido")]
+    [StringLength(maximumLength: 30)]
     public string Nombre { get; set; }
+
+    [Required(ErrorMessage = "El campo {0} es requerido")]
+    [Display(Name = "Primer Apellido *")]
+    [StringLength(maximumLength: 30)]
     public string PrimerApellido { get; set; }
+
+    [Required(ErrorMessage = "El campo {0} es requerido")]
+    [Display(Name = "Segundo Apellido *")]
+    [StringLength(maximumLength: 30)]
     public string SegundoApellido { get; set; }
     public string CURP { get; set; }
+
+    [Display(Name = "Correo Personal")]
+    [EmailAddress]
     public string CorreoPersonal { get; set; }
     public string TelefonoPersonal { get; set; }
 

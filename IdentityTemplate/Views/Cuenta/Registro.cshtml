@@ -1,0 +1,121 @@
+﻿@model IdentityTemplate.ViewModels.RegistroUsuario
+
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h1>Registro de usuarios</h1>
+
+<h3>Datos del responsable</h3>
+
+<form asp-action="RegistrarUsuario">
+
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="row">
+
+      <div class="col-12 mb-3">
+        <label class="form-label" asp-for="UserName"></label>
+        <input type="text" class="form-control" asp-for="UserName">
+        <span asp-validation-for="UserName" class="text-danger"></span>
+      </div>
+
+      <div class="col-12 mb-3">
+        <label class="form-label" asp-for="Nombre"></label>
+        <input type="text" class="form-control" asp-for="Nombre">
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+      </div>
+
+      <div class="col-12 mb-3">
+        <label class="form-label" asp-for="PrimerApellido"></label>
+        <input type="text" class="form-control" asp-for="PrimerApellido">
+        <span asp-validation-for="PrimerApellido" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" asp-for="SegundoApellido"></label>
+          <input type="text" class="form-control" asp-for="SegundoApellido">
+          <span asp-validation-for="SegundoApellido" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" asp-for="CorreoLaboral"></label>
+          <input type="email" class="form-control" asp-for="CorreoLaboral">
+          <span asp-validation-for="CorreoLaboral" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" asp-for="CorreoPersonal"></label>
+          <input type="email" class="form-control" asp-for="CorreoPersonal">
+          <span asp-validation-for="CorreoPersonal" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" asp-for="TelefonoLaboral"></label>
+          <input type="tel" class="form-control" asp-for="TelefonoLaboral">
+          <span asp-validation-for="TelefonoLaboral" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" asp-for="TelefonoPersonal"></label>
+          <input type="tel" class="form-control" asp-for="TelefonoPersonal">
+          <span asp-validation-for="TelefonoPersonal" class="text-danger"></span>
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <label class="form-label" asp-for="TipoInstitucionId"></label>
+        <select class="form-select" asp-for="TipoInstitucionId" asp-items="Model.TipoInstituciones"></select>
+        <span asp-validation-for="TipoInstitucionId" class="text-danger"></span>
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <label class="form-label" asp-for="NombreInstitucion"></label>
+        <input type="text" class="form-control" asp-for="NombreInstitucion">
+        <span asp-validation-for="NombreInstitucion" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" asp-for="CURP"></label>
+          <input type="tel" class="form-control" asp-for="CURP">
+          <span asp-validation-for="CURP" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label" asp-for="CargoLaboral"></label>
+          <input type="tel" class="form-control" asp-for="CargoLaboral">
+          <span asp-validation-for="CargoLaboral" class="text-danger"></span>
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <label class="form-label" asp-for="NivelSeguimientoId"></label>
+        <select class="form-select" asp-for="NivelSeguimientoId" asp-items="Model.NivelesDeSeguimiento"></select>
+        <span asp-validation-for="NivelSeguimientoId" class="text-danger"></span>
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <label class="form-label" asp-for="NivelResponsabilidadId"></label>
+        <select class="form-select" asp-for="NivelResponsabilidadId" asp-items="Model.NivelesDeResponsabilidad"></select>
+        <span asp-validation-for="NivelResponsabilidadId" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+        <label asp-for="Contrasenia" class="form-label"></label>
+        <input asp-for="Contrasenia" class="form-control" />
+        <span asp-validation-for="Contrasenia" class="text-danger"></span>
+      </div>
+
+      <div class="mb-3">
+         <label asp-for="ConfirmarContrasenia" class="form-label"></label>
+         <input asp-for="ConfirmarContrasenia" class="form-control" />
+         <span asp-validation-for="ConfirmarContrasenia" class="text-danger"></span>
+      </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-danger">Guardar</button>
+
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+}

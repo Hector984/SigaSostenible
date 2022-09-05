@@ -1,0 +1,11 @@
+﻿@model IdentityTemplate.Areas.Identity.Data.ApplicationUser
+
+
+@{
+    ViewData["Title"] = "Registro exitoso";
+}
+
+
+<h1>Se ha registrado al usuario @Model.Nombre @Model.PrimerApellido @Model.SegundoApellido exitosamente.</h1>
+
+<a asp-action="Index" asp-controller="Home" class="btn btn-success">Ir al inicio</a>

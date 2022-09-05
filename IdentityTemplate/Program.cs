@@ -17,6 +17,27 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddRazorPages();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Configuracion de la contraseña.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+
+    // Configuración del registro de nuevas cuentas
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+
+    // Default User settings.
+    options.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
+    options.User.RequireUniqueEmail = true;
+
+});
+
 #region Ruta por defecto para usuarios no autenticados
 builder.Services.ConfigureApplicationCookie( b => 
 
