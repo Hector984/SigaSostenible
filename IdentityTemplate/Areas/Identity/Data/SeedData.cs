@@ -1,5 +1,5 @@
 ﻿using IdentityTemplate.Data;
-using IdentityTemplate.Models.Catalogs;
+using IdentityTemplate.Models.Catalogos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -111,27 +111,27 @@ namespace IdentityTemplate.Areas.Identity.Data
            
                 new TipoInstitucion
                 {
-                    Institucion = Institucion.Federal
+                    NombreDeInstitucion = Institucion.Federal.ToString()
                 },
                 new TipoInstitucion
                 {
-                    Institucion = Institucion.Estatal
+                    NombreDeInstitucion = Institucion.Estatal.ToString()
                 },
                  new TipoInstitucion
                  {
-                     Institucion = Institucion.Municipal
+                     NombreDeInstitucion = Institucion.Municipal.ToString()
                  },
                  new TipoInstitucion
                  {
-                     Institucion = Institucion.Productores
+                     NombreDeInstitucion = Institucion.Productores.ToString()
                  },
                  new TipoInstitucion
                  {
-                     Institucion = Institucion.Academia
+                     NombreDeInstitucion = Institucion.Academia.ToString()
                  },
                  new TipoInstitucion
                  {
-                     Institucion = Institucion.SociedadCivil
+                     NombreDeInstitucion = Institucion.SociedadCivil.ToString()
                  }
              );
             #endregion
@@ -147,24 +147,24 @@ namespace IdentityTemplate.Areas.Identity.Data
             
                 new NivelSeguimiento
                 {
-                    Nivel = Niveles.Nacional
+                    NivelDeSeguimiento = Niveles.Nacional.ToString()
                 },
 
                 new NivelSeguimiento
                 {
-                    Nivel = Niveles.Estatal
+                    NivelDeSeguimiento = Niveles.Estatal.ToString()
                 },
                  new NivelSeguimiento
                  {
-                     Nivel = Niveles.Regional
+                     NivelDeSeguimiento = Niveles.Regional.ToString()
                  },
                  new NivelSeguimiento
                  {
-                     Nivel = Niveles.Municipal
+                     NivelDeSeguimiento = Niveles.Municipal.ToString()
                  },
                  new NivelSeguimiento
                  {
-                     Nivel = Niveles.Local
+                     NivelDeSeguimiento = Niveles.Local.ToString()
                  }
              );
             #endregion

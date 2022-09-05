@@ -1,4 +1,4 @@
-﻿namespace IdentityTemplate.Models.Catalogs
+﻿namespace IdentityTemplate.Models.Catalogos
 {
     public class Politica
     {

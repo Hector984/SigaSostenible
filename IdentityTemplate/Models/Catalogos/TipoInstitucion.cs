@@ -1,10 +1,12 @@
-﻿namespace IdentityTemplate.Models.Catalogs
+﻿using IdentityTemplate.Areas.Identity.Data;
+
+namespace IdentityTemplate.Models.Catalogos
 {
     public class TipoInstitucion
     {
         public int TipoInstitucionId { get; set; }
-        public Institucion Institucion { get; set; }
-
+        public string NombreDeInstitucion { get; set; }
+        public virtual List<ApplicationUser> Usuario { get; set; }
     }
 
     public enum Institucion

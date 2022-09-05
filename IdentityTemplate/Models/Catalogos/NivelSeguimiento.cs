@@ -1,9 +1,12 @@
-﻿namespace IdentityTemplate.Models.Catalogs
+﻿using IdentityTemplate.Areas.Identity.Data;
+
+namespace IdentityTemplate.Models.Catalogos
 {
     public class NivelSeguimiento
     {
         public int NivelSeguimientoId { get; set; }
-        public string Nivel { get; set; }
+        public string NivelDeSeguimiento { get; set; }
+        public virtual List<ApplicationUser> Usuario { get; set; }
     }
 
     public enum Niveles

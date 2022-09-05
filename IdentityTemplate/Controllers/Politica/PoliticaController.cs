@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IdentityTemplate.Data;
-using IdentityTemplate.Models.Catalogs;
 using Microsoft.AspNetCore.Authorization;
+using IdentityTemplate.Models.Catalogos;
 
 namespace IdentityTemplate.Controllers
 {
