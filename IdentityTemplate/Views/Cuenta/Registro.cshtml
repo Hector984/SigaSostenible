@@ -20,21 +20,27 @@
         <span asp-validation-for="UserName" class="text-danger"></span>
       </div>
 
+      <div class="mb-3">
+          <label class="form-label" asp-for="CURP"></label>
+          <input type="text" class="form-control" asp-for="CURP" id="curp">
+          <span asp-validation-for="CURP" class="text-danger"></span>
+      </div>
+
       <div class="col-12 mb-3">
         <label class="form-label" asp-for="Nombre"></label>
-        <input type="text" class="form-control" asp-for="Nombre">
+        <input type="text" class="form-control" asp-for="Nombre" id="nombre" disabled>
         <span asp-validation-for="Nombre" class="text-danger"></span>
       </div>
 
       <div class="col-12 mb-3">
         <label class="form-label" asp-for="PrimerApellido"></label>
-        <input type="text" class="form-control" asp-for="PrimerApellido">
+        <input type="text" class="form-control" asp-for="PrimerApellido" id="apellidoP" disabled>
         <span asp-validation-for="PrimerApellido" class="text-danger"></span>
       </div>
 
       <div class="mb-3">
           <label class="form-label" asp-for="SegundoApellido"></label>
-          <input type="text" class="form-control" asp-for="SegundoApellido">
+          <input type="text" class="form-control" asp-for="SegundoApellido" id="apellidoM" disabled>
           <span asp-validation-for="SegundoApellido" class="text-danger"></span>
       </div>
 
@@ -75,12 +81,6 @@
       </div>
 
       <div class="mb-3">
-          <label class="form-label" asp-for="CURP"></label>
-          <input type="tel" class="form-control" asp-for="CURP">
-          <span asp-validation-for="CURP" class="text-danger"></span>
-      </div>
-
-      <div class="mb-3">
           <label class="form-label" asp-for="CargoLaboral"></label>
           <input type="tel" class="form-control" asp-for="CargoLaboral">
           <span asp-validation-for="CargoLaboral" class="text-danger"></span>
@@ -118,4 +118,39 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial"/>
+
+    <script>
+
+        let curp = document.querySelector("#curp");
+        let nombre = document.querySelector("#nombre");
+        let apellidoP = document.querySelector("#apellidoP");
+        let apellidoM = document.querySelector("#apellidoM");
+        const token = '@ViewBag.Token';
+        const url = '@ViewBag.RUL';
+
+        const data = {
+                        tipoBusqueda: "curp",
+                        curp: "JIMH940504HMCMNC06"
+                     }
+
+        //fetch(url, {
+        //      method: 'POST',
+        //      headers: {
+        //        'Accept': 'application/json',
+        //        'Content-Type': 'application/json',
+        //        'Authorization': 'Bearer ' + token,
+        //        "Access-Control-Allow-Origin" : "*",
+        //        "Access-Control-Allow-Credentials" : true
+        //      },
+        //        body: JSON.stringify({tipoBusqueda: 'curp', curp: 'JIMH940504HMCMNC06'}),
+        //        mode: 'cors'
+        // }).then(res => {
+        //     return res.json()
+        // }).then(data => console.log('Success:', data))
+        //   .catch(error => console.log('Error:', error));
+
+          
+
+    </script>
 }
+

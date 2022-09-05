@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
 using System.Text;
+using IdentityTemplate.Helpers;
 
 namespace IdentityTemplate.Controllers.Cuenta
 {
@@ -24,26 +25,31 @@ namespace IdentityTemplate.Controllers.Cuenta
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly ApplicationDBContext _applicationDBContext;
+        private readonly ICatalogosHelpers _catalogosHelpers;
+        private readonly IConfiguration _configuration;
         private readonly ILogger<LoginModel> _logger;
 
         public CuentaController(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, 
-            UserManager<ApplicationUser> userManager, ApplicationDBContext applicationDBContext)
+            UserManager<ApplicationUser> userManager, ApplicationDBContext applicationDBContext, 
+            ICatalogosHelpers catalogosHelpers, IConfiguration configuration)
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
             _applicationDBContext = applicationDBContext;
+            _catalogosHelpers = catalogosHelpers;
+            _configuration = configuration;
         }
 
         [HttpGet]
         public async Task<IActionResult> Registro()
         {
             //Recuperamos las instituciones
-            var tipoDeInstituciones = await ObtenerTipoInstituciones();
+            var tipoDeInstituciones = await _catalogosHelpers.ObtenerTipoInstituciones();
             //Recuperamos el nivel de seguimiento
-            var nivelesDeSeguimiento = await ObtenerNivelesDeSeguimiento();
+            var nivelesDeSeguimiento = await _catalogosHelpers.ObtenerNivelesDeSeguimiento();
             //Recuperamos el nivel de responsabilidad
-            var nivelesDeResponsabilidad = await ObtenerNivelesDeresponsabilidad();
+            var nivelesDeResponsabilidad = await _catalogosHelpers.ObtenerNivelesDeresponsabilidad();
 
             var modeloRegistroUsuario = new RegistroUsuario()
             {
@@ -52,6 +58,9 @@ namespace IdentityTemplate.Controllers.Cuenta
                 NivelesDeSeguimiento = nivelesDeSeguimiento
 
             };
+
+            ViewBag.Token = _configuration.GetSection("TokenBearerCURP").GetSection("Token").Value;
+            ViewBag.URL = _configuration.GetSection("TokenBearerCURP").GetSection("URL").Value;
 
             return View(modeloRegistroUsuario);
         }
@@ -116,7 +125,7 @@ namespace IdentityTemplate.Controllers.Cuenta
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
 
-                return View();
+                return View("Registro", modeloUsuario);
             }
             
         }
@@ -169,30 +178,65 @@ namespace IdentityTemplate.Controllers.Cuenta
         }
 
         [HttpGet]
-        public async Task<IActionResult> RegistroExitoso(ApplicationUser modelo)
+        public IActionResult RegistroExitoso(ApplicationUser modelo)
         {
             return View(modelo);
         }
 
-        private async Task<IEnumerable<SelectListItem>> ObtenerTipoInstituciones()
+        #region Verifcacion de campos
+        [HttpGet]
+        public async Task<IActionResult> VerificarExisteNombreUsuario(string UserName)
         {
-            var instituciones = await _applicationDBContext.TipoInstituciones.ToListAsync();
+            var yaExisteNombreDeUsuario = await _userManager.FindByNameAsync(UserName);
 
-            return instituciones.Select(x => new SelectListItem(x.NombreDeInstitucion, x.TipoInstitucionId.ToString()));
+            if(yaExisteNombreDeUsuario != null)
+            {
+                return Json($"El nombre de usuario {UserName} ya existe.");
+            }
+
+            return Json(true);
         }
 
-        private async Task<IEnumerable<SelectListItem>> ObtenerNivelesDeSeguimiento()
+        [HttpGet]
+        public async Task<IActionResult> VerificarExisteCorreoLaboralUsuario(string CorreoLaboral)
         {
-            var instituciones = await _applicationDBContext.NivelesSeguimiento.ToListAsync();
+            var yaExisteCorreoDeUsuario = await _userManager.FindByEmailAsync(CorreoLaboral);
 
-            return instituciones.Select(x => new SelectListItem(x.NivelDeSeguimiento, x.NivelSeguimientoId.ToString()));
+            if (yaExisteCorreoDeUsuario != null)
+            {
+                return Json($"El correo {CorreoLaboral} ya existe.");
+            }
+
+            return Json(true);
         }
 
-        private async Task<IEnumerable<SelectListItem>> ObtenerNivelesDeresponsabilidad()
+        [HttpGet]
+        public async Task<IActionResult> VerificarExisteCorreoPersonalUsuario(string CorreoPersonal)
         {
-            var instituciones = await _applicationDBContext.NivelResponsabilidad.ToListAsync();
+            var yaExisteCorreoDeUsuario = await _userManager.Users
+                                          .FirstOrDefaultAsync(u => u.CorreoPersonal.Equals(CorreoPersonal));
 
-            return instituciones.Select(x => new SelectListItem(x.NivelDeResponsabilidad, x.NivelResponsabilidadId.ToString()));
+            if (yaExisteCorreoDeUsuario != null)
+            {
+                return Json($"El correo {CorreoPersonal} ya existe.");
+            }
+
+            return Json(true);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> VerificarExisteCURPUsuario(string CURP)
+        {
+            var yaExisteCURPDeUsuario = await _userManager.Users
+                                          .FirstOrDefaultAsync(u => u.CURP.Equals(CURP));
+
+            if (yaExisteCURPDeUsuario != null)
+            {
+                return Json($"Ya existe un usuario con ese CURP.");
+            }
+
+            return Json(true);
+        }
+        #endregion
     }
 }

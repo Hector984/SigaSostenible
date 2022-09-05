@@ -3,9 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using IdentityTemplate.Data;
 using IdentityTemplate.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
+using IdentityTemplate.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDBContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDBContextConnection' not found.");
+
+#region servicios locales
+builder.Services.AddTransient<ICatalogosHelpers, CatalogosHelpers>();
+#endregion
+
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(connectionString));
