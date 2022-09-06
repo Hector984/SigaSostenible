@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityTemplate.Models.Catalogos;
+using IdentityTemplate.Models.Intermedios;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -66,5 +67,7 @@ public class ApplicationUser : IdentityUser
     [Display(Name = "Nivel de Reponsabilidad")]
     public int NivelResponsabilidadId { get; set; }
     public virtual NivelResponsabilidad NivelResponsabilidad { get; set; }
+
+    public IEnumerable<PoliticaUsuario> PoliticaUsuario { get; set; }
 }
 

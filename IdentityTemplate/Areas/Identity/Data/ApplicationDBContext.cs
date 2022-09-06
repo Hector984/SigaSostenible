@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using IdentityTemplate.Models.Catalogos;
+using IdentityTemplate.Models.Intermedios;
 
 namespace IdentityTemplate.Data;
 
@@ -17,6 +18,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<NivelSeguimiento> NivelesSeguimiento { get; set; }
     public DbSet<TipoInstitucion> TipoInstituciones { get; set; }
     public DbSet<NivelResponsabilidad> NivelResponsabilidad { get; set; }
+    public DbSet<PoliticaUsuario> PoliticaUsuario { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -247,6 +249,24 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
             b.Property(nr => nr.NivelDeResponsabilidad).HasColumnName("ln_nombre").HasMaxLength(256);
 
             b.HasData(nivelesResponsabilidad);
+        });
+
+        builder.Entity<PoliticaUsuario>(b =>
+        {
+            b.ToTable("tb_cat_r_politica_usuario");
+
+            b.HasKey(pu => new { pu.PoliticaId, pu.UsuarioId }).HasName("id_n_politica_usuario");
+
+            b.HasIndex(pu => pu.PoliticaId).HasDatabaseName("idx01_politica_usuario");
+
+            b.HasIndex(pu => pu.UsuarioId).HasDatabaseName("idx02_politica_usuario");
+
+            b.HasOne(o => o.Politica).WithMany(m => m.PoliticaUsuario).HasForeignKey(f => f.PoliticaId).HasConstraintName("fk01_politica_usuario");
+            b.HasOne(o => o.Usuario).WithMany(m => m.PoliticaUsuario).HasForeignKey(f => f.UsuarioId).HasConstraintName("fk02_politica_usuario");
+
+            b.Property(pu => pu.PoliticaId).HasColumnName("id_n_politica").UseIdentityByDefaultColumn();
+            b.Property(pu => pu.UsuarioId).HasColumnName("id_ln_usuario").HasColumnType("varchar");
+
         });
         #endregion Tablas catalogos
     }
