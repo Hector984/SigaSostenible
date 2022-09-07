@@ -4,6 +4,7 @@ using IdentityTemplate.Data;
 using IdentityTemplate.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using IdentityTemplate.Helpers;
+using IdentityTemplate.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("ApplicationDBC
 
 #region servicios locales
 builder.Services.AddTransient<ICatalogosHelpers, CatalogosHelpers>();
+builder.Services.AddTransient<IServicioCURP, ServicioCURP>();
 #endregion
 
 
@@ -64,6 +66,7 @@ builder.Services.ConfigureApplicationCookie( b =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 

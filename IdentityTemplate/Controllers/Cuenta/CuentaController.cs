@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
 using System.Text;
 using IdentityTemplate.Helpers;
+using IdentityTemplate.Servicios;
+using IdentityTemplate.Models.CURP;
+using IdentityTemplate.Models.Intermedios;
 
 namespace IdentityTemplate.Controllers.Cuenta
 {
@@ -27,11 +30,13 @@ namespace IdentityTemplate.Controllers.Cuenta
         private readonly ApplicationDBContext _applicationDBContext;
         private readonly ICatalogosHelpers _catalogosHelpers;
         private readonly IConfiguration _configuration;
+        private readonly IServicioCURP _servicioCURP;
         private readonly ILogger<LoginModel> _logger;
 
         public CuentaController(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, 
             UserManager<ApplicationUser> userManager, ApplicationDBContext applicationDBContext, 
-            ICatalogosHelpers catalogosHelpers, IConfiguration configuration)
+            ICatalogosHelpers catalogosHelpers, IConfiguration configuration, IServicioCURP servicioCURP,
+            IUserStore<ApplicationUser> userStore)
         {
             _signInManager = signInManager;
             _logger = logger;
@@ -39,6 +44,8 @@ namespace IdentityTemplate.Controllers.Cuenta
             _applicationDBContext = applicationDBContext;
             _catalogosHelpers = catalogosHelpers;
             _configuration = configuration;
+            _servicioCURP = servicioCURP;
+            _userStore = userStore;        
         }
 
         [HttpGet]
@@ -50,19 +57,28 @@ namespace IdentityTemplate.Controllers.Cuenta
             var nivelesDeSeguimiento = await _catalogosHelpers.ObtenerNivelesDeSeguimiento();
             //Recuperamos el nivel de responsabilidad
             var nivelesDeResponsabilidad = await _catalogosHelpers.ObtenerNivelesDeresponsabilidad();
+            //Recuperamos las politicas existentes
+            var politicas = await _catalogosHelpers.ObtenerPoliticas();
 
             var modeloRegistroUsuario = new RegistroUsuario()
             {
                 TipoInstituciones = tipoDeInstituciones,
                 NivelesDeResponsabilidad = nivelesDeResponsabilidad,
-                NivelesDeSeguimiento = nivelesDeSeguimiento
+                NivelesDeSeguimiento = nivelesDeSeguimiento,
+                Politicas = politicas
 
             };
 
-            ViewBag.Token = _configuration.GetSection("TokenBearerCURP").GetSection("Token").Value;
-            ViewBag.URL = _configuration.GetSection("TokenBearerCURP").GetSection("URL").Value;
-
             return View(modeloRegistroUsuario);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LlenarNombrePorCURP([FromBody] CURP curp)
+        {
+            var datos = await _servicioCURP.ObtenerDatos(curp.curp);
+
+
+            return Ok(datos);
         }
 
         [HttpPost]
@@ -73,14 +89,17 @@ namespace IdentityTemplate.Controllers.Cuenta
             {
                 ModelState.AddModelError(string.Empty, "Datos inválidos.");
 
-                return RedirectToAction("Error", "Home");
+                //var errors = ModelState.Values.SelectMany(v => v.Errors);
+
+                //foreach(var error in errors)
+                //{
+                //    var show = error.ErrorMessage.ToString();
+                //    var a = 0;
+                //}
+
+                return View("Registro", modeloUsuario);
             }
 
-
-            //ApplicationUser usuario = new ApplicationUser()
-            //{
-            //    Nombre = modeloUsuario.Nombre,
-            //};
             modeloUsuario.Email = modeloUsuario.CorreoLaboral;
             modeloUsuario.NormalizedEmail = modeloUsuario.CorreoLaboral.ToUpper();
             modeloUsuario.NormalizedUserName = modeloUsuario.UserName.ToUpper();
@@ -88,14 +107,32 @@ namespace IdentityTemplate.Controllers.Cuenta
 
             //await _userStore.SetUserNameAsync(modeloUsuario, modeloUsuario.UserName, CancellationToken.None);
             //await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-            var result = await _userManager.CreateAsync(modeloUsuario, modeloUsuario.Contrasenia);
 
-            if (result.Succeeded)
+            //Creamos el usuario
+            var resultado = await _userManager.CreateAsync(modeloUsuario, modeloUsuario.Contrasenia);
+           
+
+            if (resultado.Succeeded)
             {
+
                 _logger.LogInformation("Nuevo usuario creado.");
 
+                //Asignamos la politica o accion
+                var usuario = await _userManager.FindByEmailAsync(modeloUsuario.Email);
+
+                var politicaUsuario = new PoliticaUsuario()
+                {
+                    PoliticaId = modeloUsuario.PoliticaId,
+                    UsuarioId = usuario.Id
+                };
+
+                var politicaAsignada = _applicationDBContext.PoliticaUsuario.Add(politicaUsuario);
+
+                await _applicationDBContext.SaveChangesAsync();
+
+                //Enviamos correo de confirmación
                 //var userId = await _userManager.GetUserIdAsync(user);
-                //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
                 //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 //var callbackUrl = Url.Page(
                 //    "/Account/ConfirmEmail",
@@ -116,11 +153,15 @@ namespace IdentityTemplate.Controllers.Cuenta
                 //    return LocalRedirect(returnUrl);
                 //}
 
-                return RedirectToAction("RegistroExitoso", modeloUsuario);
+                ViewBag.Nombre = usuario.Nombre;
+                ViewBag.PrimerApellido = usuario.PrimerApellido;
+                ViewBag.SegundoApellido = usuario.SegundoApellido;
+
+                return View("RegistroExitoso");
             }
             else
             {
-                foreach (var error in result.Errors)
+                foreach (var error in resultado.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
@@ -180,7 +221,7 @@ namespace IdentityTemplate.Controllers.Cuenta
         [HttpGet]
         public IActionResult RegistroExitoso(ApplicationUser modelo)
         {
-            return View(modelo);
+            return RedirectToAction("RegistroExitoso", modelo);
         }
 
         #region Verifcacion de campos

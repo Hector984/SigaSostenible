@@ -9,6 +9,7 @@ namespace IdentityTemplate.Helpers
     {
         Task<IEnumerable<SelectListItem>> ObtenerNivelesDeresponsabilidad();
         Task<IEnumerable<SelectListItem>> ObtenerNivelesDeSeguimiento();
+        Task<IEnumerable<SelectListItem>> ObtenerPoliticas();
         Task<IEnumerable<SelectListItem>> ObtenerTipoInstituciones();
     }
 
@@ -30,16 +31,23 @@ namespace IdentityTemplate.Helpers
 
         public async Task<IEnumerable<SelectListItem>> ObtenerNivelesDeSeguimiento()
         {
-            var instituciones = await _applicationDBContext.NivelesSeguimiento.ToListAsync();
+            var nivelesDeSeguimiento = await _applicationDBContext.NivelesSeguimiento.ToListAsync();
 
-            return instituciones.Select(x => new SelectListItem(x.NivelDeSeguimiento, x.NivelSeguimientoId.ToString()));
+            return nivelesDeSeguimiento.Select(x => new SelectListItem(x.NivelDeSeguimiento, x.NivelSeguimientoId.ToString()));
         }
 
         public async Task<IEnumerable<SelectListItem>> ObtenerNivelesDeresponsabilidad()
         {
-            var instituciones = await _applicationDBContext.NivelResponsabilidad.ToListAsync();
+            var nivelesDeResponsabilidad = await _applicationDBContext.NivelResponsabilidad.ToListAsync();
 
-            return instituciones.Select(x => new SelectListItem(x.NivelDeResponsabilidad, x.NivelResponsabilidadId.ToString()));
+            return nivelesDeResponsabilidad.Select(x => new SelectListItem(x.NivelDeResponsabilidad, x.NivelResponsabilidadId.ToString()));
+        }
+
+        public async Task<IEnumerable<SelectListItem>> ObtenerPoliticas()
+        {
+            var politicas = await _applicationDBContext.PoliticaAcciones.ToListAsync();
+
+            return politicas.Select(x => new SelectListItem(x.NombrePolitica, x.PoliticaId.ToString()));
         }
     }
 }
