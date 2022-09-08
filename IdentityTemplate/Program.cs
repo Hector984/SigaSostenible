@@ -22,7 +22,8 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
      options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDBContext>();
+    .AddEntityFrameworkStores<ApplicationDBContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddRazorPages();
 
@@ -37,7 +38,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 1;
 
     // Configuración del registro de nuevas cuentas
-    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedEmail = true;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 
     // Default User settings.
@@ -47,10 +48,16 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 });
 
-#region Ruta por defecto para usuarios no autenticados
-builder.Services.ConfigureApplicationCookie( b => 
+#region Rutas por defecto para usuarios no autenticados o sin permiso
+builder.Services.ConfigureApplicationCookie(options =>
 
-    b.LoginPath = "/Cuenta/Login"
+    options.LoginPath = "/Cuenta/Login"
+
+);
+
+builder.Services.ConfigureApplicationCookie(b =>
+
+    b.AccessDeniedPath = "/Cuenta/AccesoDenegado"
 
 );
 #endregion
@@ -72,17 +79,17 @@ var app = builder.Build();
 
 
 #region Seeder de la base de datos
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    var context = services.GetRequiredService<ApplicationDBContext>();
-//    context.Database.Migrate();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDBContext>();
+    context.Database.Migrate();
 
-//    //Revisar el archivo appsettings.json para ver la contraseña
-//    var testUserPw = builder.Configuration["ConnectionStrings:DefaultPassword"];
+    //Revisar el archivo appsettings.json para ver la contraseña
+    var testUserPw = builder.Configuration["ConnectionStrings:DefaultPassword"];
 
-//    await SeedData.Initialize(services, testUserPw);
-//}
+    await SeedData.Initialize(services, testUserPw);
+}
 #endregion
 
 // Configure the HTTP request pipeline.

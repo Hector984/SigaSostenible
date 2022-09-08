@@ -14,7 +14,7 @@ namespace IdentityTemplate.Areas.Identity.Data
             {
                 string admin = await EnsureUser(serviceProvider, testUserPw, "admin@admin.com");
 
-                await EnsureRole(serviceProvider, admin, "AdministradorNacional");
+                await EnsureRole(serviceProvider, admin, "Administrador Nacional");
 
                 SeedDB(context);
             }
@@ -38,7 +38,18 @@ namespace IdentityTemplate.Areas.Identity.Data
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false,
                     LockoutEnabled = false,
-                    AccessFailedCount = 0
+                    AccessFailedCount = 0,
+                    Nombre = "Administrador",
+                    PrimerApellido = "Administrador",
+                    SegundoApellido = "Administrador",
+                    CorreoPersonal = "admin@admin.com",
+                    CURP = "admin",
+                    NombreInstitucion = "Agricultura",
+                    TelefonoPersonal = "5512345678",
+                    PhoneNumber = "5512345678",
+                    NivelResponsabilidadId = 1,
+                    NivelSeguimientoId = 1,
+                    TipoInstitucionId = 1
                 };
 
                 await userManager.CreateAsync(user, testUserPw);
@@ -46,7 +57,7 @@ namespace IdentityTemplate.Areas.Identity.Data
 
             if (user == null)
             {
-                throw new Exception("The password is probably not strong enough!");
+                throw new Exception("La contraseña no es muy segura.");
             }
 
             return user.Id;

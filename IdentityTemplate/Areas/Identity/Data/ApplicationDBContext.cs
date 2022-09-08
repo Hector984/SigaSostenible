@@ -19,6 +19,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<TipoInstitucion> TipoInstituciones { get; set; }
     public DbSet<NivelResponsabilidad> NivelResponsabilidad { get; set; }
     public DbSet<PoliticaUsuario> PoliticaUsuario { get; set; }
+    public DbSet<IdentityUserToken<string>> TokenUsuario { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

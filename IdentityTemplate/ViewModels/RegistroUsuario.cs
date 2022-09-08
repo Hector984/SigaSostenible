@@ -20,6 +20,7 @@ namespace IdentityTemplate.ViewModels
         //[DataType(DataType.PhoneNumber)]
         //[RegularExpression(@"(\\(\d{3}\\)[●-]?|\d{3}[●-]?)?\d{3}[●-]?\d{4}", ErrorMessage = "El formato no es válido")]
         public string TelefonoLaboral { get; set; }
+
         [Required(ErrorMessage = "La contraseña es requerida")]
         [StringLength(100, ErrorMessage = "La contraseña debe contener mínimo {1} caracteres de largo.", MinimumLength = 6)]
         [DataType(DataType.Password)]
@@ -30,8 +31,6 @@ namespace IdentityTemplate.ViewModels
         [Display(Name = "Confirmar contraseña")]
         [Compare("Contrasenia", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmarContrasenia { get; set; }
-
-        //public CURPDecodificado CURPDecodificado { get; set;  }
 
         [Column("id_politica")]
         [Display(Name = "Nombre de la Política o Acción para dar Seguimiento")]

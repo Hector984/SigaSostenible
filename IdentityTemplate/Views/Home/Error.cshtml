@@ -3,6 +3,14 @@
     ViewData["Title"] = "Error";
 }
 
-<h1>Algo salió mal, no pudimos ejecutar la acción requerida.</h1>
+<div class="row justify-content-center">
 
-<a asp-action="Index" asp-controller="Home" class="btn btn-danger">Ir al inicio</a>
+    <h1 class="text-center">Algo salió mal, no pudimos ejecutar la acción requerida.</h1>
+
+    <h1 class="text-danger">@ViewBag.MensajeError</h1>
+
+    <i class="bi bi-emoji-frown text-center" style="font-size: 200px;"></i>
+
+    <a asp-action="Index" asp-controller="Home" class="btn btn-success">Ir al inicio</a>
+
+</div>

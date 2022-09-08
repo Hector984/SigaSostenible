@@ -3,7 +3,13 @@
     ViewData["Title"] = "Registro exitoso";
 }
 
+<div class="row justify-content-center">
+    <i class="bi bi-send-fill my-5 text-center" style="font-size: 200px"></i>
 
-<h1>Se ha registrado al usuario @ViewBag.Nombre @ViewBag.PrimerApellido @ViewBag.SegundoApellido exitosamente.</h1>
+    <h1 class="text-center">Se ha registrado al usuario @ViewBag.Nombre @ViewBag.PrimerApellido @ViewBag.SegundoApellido exitosamente.</h1>
 
-<a asp-action="Index" asp-controller="Home" class="btn btn-success">Ir al inicio</a>
+    <h3 class="text-center">También le hemos envíado un mensaje al correo @ViewBag.Correo para que confirme su cuenta.</h3>
+
+    <a asp-action="Index" asp-controller="Home" class="btn btn-success mt-3">Ir al inicio</a>
+</div>
+
