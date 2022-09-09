@@ -13,6 +13,7 @@ var connectionString = builder.Configuration.GetConnectionString("ApplicationDBC
 #region servicios locales
 builder.Services.AddTransient<ICatalogosHelpers, CatalogosHelpers>();
 builder.Services.AddTransient<IServicioCURP, ServicioCURP>();
+builder.Services.AddSingleton<IServicioCorreo, ServicioCorreo>();
 #endregion
 
 
@@ -60,6 +61,10 @@ builder.Services.ConfigureApplicationCookie(b =>
     b.AccessDeniedPath = "/Cuenta/AccesoDenegado"
 
 );
+#endregion
+
+#region Servicio de correo
+builder.Services.Configure<ConfiguracionCorreo>(builder.Configuration.GetSection("ConfiguracionCorreo"));
 #endregion
 
 #region Fallback authorization policy

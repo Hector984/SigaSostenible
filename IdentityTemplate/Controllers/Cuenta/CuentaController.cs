@@ -31,7 +31,7 @@ namespace IdentityTemplate.Controllers.Cuenta
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServicioCorreo _servicioCorreo;
         private readonly ApplicationDBContext _applicationDBContext;
         private readonly ICatalogosHelpers _catalogosHelpers;
         private readonly IConfiguration _configuration;
@@ -42,7 +42,7 @@ namespace IdentityTemplate.Controllers.Cuenta
             UserManager<ApplicationUser> userManager, 
             ApplicationDBContext applicationDBContext, ICatalogosHelpers catalogosHelpers, 
             IConfiguration configuration, IServicioCURP servicioCURP,
-            IUserStore<ApplicationUser> userStore, IServiceProvider serviceProvider)
+            IUserStore<ApplicationUser> userStore, IServicioCorreo servicioCorreo)
         {
             _signInManager = signInManager;
             _logger = logger;
@@ -52,7 +52,7 @@ namespace IdentityTemplate.Controllers.Cuenta
             _configuration = configuration;
             _servicioCURP = servicioCURP;
             _userStore = userStore;
-            _serviceProvider = serviceProvider;
+            _servicioCorreo = servicioCorreo;
         }
 
         #region Registro
@@ -127,19 +127,10 @@ namespace IdentityTemplate.Controllers.Cuenta
                     values: new { usuarioId = usuario.Id, token = tokenDeConfirmacion });
 
                 //Enviar el correo para confirmar cuenta
-                var mensaje = new MailMessage("hectoruam96@gmail.com", usuario.Email,
-                    "Confirmación de cuenta en SigaSostenible.",
-                    $"<p>Tu contraseña asignada es {modeloUsuario.Contrasenia}</p> </br></br> <p>Da click en el siguiente enlace para verificar tu cuenta {linkDeConfirmacion}</p>");
-                
-                using(var cliente = new SmtpClient("smtp-relay.sendinblue.com", 587))
-                {
-                    cliente.Credentials = new NetworkCredential(
-                        "hectoruam96@gmail.com",
-                        "bvakcUZmsTgPICRW");
-
-                    await cliente.SendMailAsync(mensaje);
-                }
                
+                await _servicioCorreo.EnviarCorreoAsync(usuario.Email, "Confirmación de cuenta en SigaSostenible.",
+                    $"<p>Tu contraseña asignada es {modeloUsuario.Contrasenia}</p> </br></br> <p>Da click en el siguiente enlace para verificar tu cuenta {linkDeConfirmacion}</p>");
+
                 ViewBag.Nombre = usuario.Nombre;
                 ViewBag.PrimerApellido = usuario.PrimerApellido;
                 ViewBag.SegundoApellido = usuario.SegundoApellido;
@@ -293,32 +284,22 @@ namespace IdentityTemplate.Controllers.Cuenta
             var linkDeConfirmacion = Url.ActionLink(action: "ReestablecerContrasenia", controller: "Cuenta",
                 values: new { usuarioId = usuario.Id, token = tokenDeConfirmacion });
 
-            //Enviar el correo para confirmar cuenta
-            var mensaje = new MailMessage("hectoruam96@gmail.com", usuario.Email,
-                "Reestablecer la contrasenia.",
+            //Enviar el correo para reestablecer contraseña
+            try
+            {
+                await _servicioCorreo.EnviarCorreoAsync(usuario.Email, "Reestablecer la contrasenia.",
                 $"Da click en el siguiente enlace para reestablecer tu contraseña {linkDeConfirmacion}");
 
-            using (var cliente = new SmtpClient("smtp-relay.sendinblue.com", 587))
+                return RedirectToAction("ConfirmacionContraseñaOlvidada");
+
+            }
+            catch(Exception ex)
             {
-                cliente.Credentials = new NetworkCredential(
-                    "hectoruam96@gmail.com",
-                    "bvakcUZmsTgPICRW");
+                string mensajeLog = String.Format("No pudimos enviar el correo para reestablecer la contraseña");
 
-                try
-                {
-                    await cliente.SendMailAsync(mensaje);
+                _logger.LogInformation(mensajeLog);
 
-                    return RedirectToAction("ConfirmacionContraseñaOlvidada");
-                }
-                catch (Exception ex)
-                {
-                    string mensajeLog = String.Format("No pudimos enviar el correo para reestablecer la contraseña");
-
-                    _logger.LogInformation(mensajeLog);
-
-                    _logger.LogInformation(ex.Message);
-                }
-
+                _logger.LogInformation(ex.Message);
             }
 
             ViewBag.MensajeError = "No pudimos enviar el correo para reestablecer la contraseña";
@@ -401,8 +382,8 @@ namespace IdentityTemplate.Controllers.Cuenta
 
             #endregion
 
-            #region Acceso Denegado
-            [HttpGet]
+        #region Acceso Denegado
+        [HttpGet]
         public IActionResult AccesoDenegado()
         {
             return View();
