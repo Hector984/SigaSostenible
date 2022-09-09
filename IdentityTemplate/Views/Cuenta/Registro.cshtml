@@ -21,9 +21,9 @@
       </div>
 
       <div class="mb-3">
-              <label class="form-label" asp-for="CURP" id="curp-msg"></label>
-              <input type="text" class="form-control" asp-for="CURP" id="curp">
-              <span asp-validation-for="CURP" class="text-danger"></span>
+         <label class="form-label" asp-for="CURP" id="curp-msg"></label>
+         <input type="text" class="form-control" asp-for="CURP" id="curp">
+         <span asp-validation-for="CURP" class="text-danger"></span>
       </div>
 
       <div class="col-12 mb-3">
@@ -98,10 +98,16 @@
         <span asp-validation-for="NivelSeguimientoId" class="text-danger"></span>
       </div>
 
-      <div class="col-12 col-md-6 mb-3">
+      @*<div class="col-12 col-md-6 mb-3">
         <label class="form-label" asp-for="NivelResponsabilidadId"></label>
         <select class="form-select" asp-for="NivelResponsabilidadId" asp-items="Model.NivelesDeResponsabilidad"></select>
         <span asp-validation-for="NivelResponsabilidadId" class="text-danger"></span>
+      </div>*@
+
+      <div class="col-12 mb-3">
+        <label class="form-label" asp-for="RolId"></label>
+        <select class="form-select" asp-for="RolId" asp-items="Model.Roles"></select>
+        <span asp-validation-for="RolId" class="text-danger"></span>
       </div>
 
       <div class="mb-3">

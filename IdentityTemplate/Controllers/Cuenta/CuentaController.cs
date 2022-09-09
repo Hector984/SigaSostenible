@@ -22,6 +22,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using static IdentityTemplate.Models.Catalogos.Rol;
 
 namespace IdentityTemplate.Controllers.Cuenta
 {
@@ -30,6 +31,7 @@ namespace IdentityTemplate.Controllers.Cuenta
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IServicioCorreo _servicioCorreo;
         private readonly ApplicationDBContext _applicationDBContext;
@@ -39,7 +41,7 @@ namespace IdentityTemplate.Controllers.Cuenta
         private readonly ILogger<LoginModel> _logger;
 
         public CuentaController(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, 
-            UserManager<ApplicationUser> userManager, 
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
             ApplicationDBContext applicationDBContext, ICatalogosHelpers catalogosHelpers, 
             IConfiguration configuration, IServicioCURP servicioCURP,
             IUserStore<ApplicationUser> userStore, IServicioCorreo servicioCorreo)
@@ -47,6 +49,7 @@ namespace IdentityTemplate.Controllers.Cuenta
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _roleManager = roleManager;
             _applicationDBContext = applicationDBContext;
             _catalogosHelpers = catalogosHelpers;
             _configuration = configuration;
@@ -61,22 +64,27 @@ namespace IdentityTemplate.Controllers.Cuenta
         //[Authorize(Roles = "Administrator Nacional")]
         public async Task<IActionResult> Registro()
         {
+
+            var usuarioActual = await _userManager.GetUserAsync(HttpContext.User);
+
             //Recuperamos las instituciones
             var tipoDeInstituciones = await _catalogosHelpers.ObtenerTipoInstituciones();
             //Recuperamos el nivel de seguimiento
             var nivelesDeSeguimiento = await _catalogosHelpers.ObtenerNivelesDeSeguimiento();
             //Recuperamos el nivel de responsabilidad
-            var nivelesDeResponsabilidad = await _catalogosHelpers.ObtenerNivelesDeresponsabilidad();
+            //var nivelesDeResponsabilidad = await _catalogosHelpers.ObtenerNivelesDeresponsabilidad();
             //Recuperamos las politicas existentes
             var politicas = await _catalogosHelpers.ObtenerPoliticas();
+            //Recuperamos el rol del usuario que se va a registrar
+            var rol = await _catalogosHelpers.ObtenerRol(usuarioActual);
 
             var modeloRegistroUsuario = new RegistroUsuario()
             {
                 TipoInstituciones = tipoDeInstituciones,
-                NivelesDeResponsabilidad = nivelesDeResponsabilidad,
+                //NivelesDeResponsabilidad = nivelesDeResponsabilidad,
                 NivelesDeSeguimiento = nivelesDeSeguimiento,
-                Politicas = politicas
-
+                Politicas = politicas,
+                Roles = rol
             };
 
             return View(modeloRegistroUsuario);
@@ -116,11 +124,24 @@ namespace IdentityTemplate.Controllers.Cuenta
                     UsuarioId = usuario.Id
                 };
 
-                var politicaAsignada = _applicationDBContext.PoliticaUsuario.Add(politicaUsuario);
+                _applicationDBContext.PoliticaUsuario.Add(politicaUsuario);
 
                 await _applicationDBContext.SaveChangesAsync();
 
-                //Asignamos el token de confirmacion
+                //Asignamos el rol al usuario
+                
+
+                var perfilAsignado = await _roleManager.FindByIdAsync(modeloUsuario.RolId);
+
+                await _userManager.AddToRoleAsync(usuario, perfilAsignado.Name);
+
+                //Si el usuario que registra es validador, guardamos la relacion en la tabla Validador-Ejecutor
+                if(perfilAsignado.Name == Roles.Validador.ToString())
+                {
+                    var usuarioActual = await _userManager.GetUserAsync(HttpContext.User);
+                }
+
+                //Asignamos el token de confirmacion para confirmar la cuenta por correo
                 var tokenDeConfirmacion = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
 
                 var linkDeConfirmacion = Url.ActionLink(action: "ConfirmarCorreo", controller: "Cuenta",
@@ -256,7 +277,7 @@ namespace IdentityTemplate.Controllers.Cuenta
         //[Authorize]
         public IActionResult ContraseñaOlvidada()
         {
-            //var usuario = await _userManager.GetUserAsync(HttpContext.User);
+            
             return View();
         }
 
@@ -440,6 +461,19 @@ namespace IdentityTemplate.Controllers.Cuenta
             if (yaExisteCURPDeUsuario != null)
             {
                 return Json($"Ya existe un usuario con ese CURP.");
+            }
+
+            return Json(true);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> VerificarRolExiste(string RolId)
+        {
+            var existeRol = await _roleManager.FindByIdAsync(RolId);
+
+            if(existeRol is null)
+            {
+                return Json($"El perfil de usuario no es válido.");
             }
 
             return Json(true);

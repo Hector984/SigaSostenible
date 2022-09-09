@@ -19,7 +19,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<TipoInstitucion> TipoInstituciones { get; set; }
     public DbSet<NivelResponsabilidad> NivelResponsabilidad { get; set; }
     public DbSet<PoliticaUsuario> PoliticaUsuario { get; set; }
-    public DbSet<IdentityUserToken<string>> TokenUsuario { get; set; }
+    public DbSet<IdentityUserRole<string>> RolUsuario { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -88,7 +88,8 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
             b.HasOne(t => t.NivelResponsabilidad).WithMany(u => u.Usuario).HasForeignKey(f => f.NivelResponsabilidadId)
              .HasConstraintName("fk_usuario_nivel_resp").IsRequired(false);
 
-            b.Property(u => u.NivelResponsabilidadId).HasDefaultValue(null);
+            //b.Property(u => u.NivelResponsabilidadId).HasDefaultValue(null);
+            b.Ignore(u => u.NivelResponsabilidadId);
 
             b.Property(u => u.PasswordHash).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_hash_contrasenia").HasColumnOrder(19);
 

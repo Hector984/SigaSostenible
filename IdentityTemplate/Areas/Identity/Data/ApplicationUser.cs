@@ -65,6 +65,7 @@ public class ApplicationUser : IdentityUser
 
     [Column("n_nivel_responsabilidad", Order = 18)]
     [Display(Name = "Nivel de Reponsabilidad")]
+    [NotMapped]
     public int NivelResponsabilidadId { get; set; }
     public virtual NivelResponsabilidad NivelResponsabilidad { get; set; }
 
