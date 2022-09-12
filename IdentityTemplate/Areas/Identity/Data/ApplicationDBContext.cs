@@ -22,6 +22,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<UnidadMeta> UnidadMeta { get; set; }
     public DbSet<TipoSoprte> TipoSoprtes { get; set; }
     public DbSet<AreaIncidencia> AreaIncidencia { get; set; }
+    public DbSet<Impacto> Impacto { get; set; }
     public DbSet<IdentityUserRole<string>> RolUsuario { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -304,6 +305,16 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.Property(um => um.Id).HasColumnName("id_area_incidencia").UseIdentityByDefaultColumn();
             b.Property(um => um.Descripcion).HasColumnName("ln_descripcion_area").HasColumnType("varchar").HasMaxLength(256);
+        });
+
+        builder.Entity<Impacto>(b =>
+        {
+            b.ToTable("tb_cat_impacto");
+
+            b.HasKey(um => um.Id).HasName("id_n_impacto");
+
+            b.Property(um => um.Id).HasColumnName("id_impacto").UseIdentityByDefaultColumn();
+            b.Property(um => um.Descripcion).HasColumnName("ln_descripcion_impacto").HasColumnType("varchar").HasMaxLength(256);
         });
         #endregion
     }

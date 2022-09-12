@@ -282,39 +282,62 @@ namespace IdentityTemplate.Areas.Identity.Data
 
             if(!context.AreaIncidencia.Any())
             {
-
-            }
-
-            if(!context.AreaIncidencia.Any())
-            {
                 #region Area incidencia
                 context.AreaIncidencia.AddRange(
-
+                    new AreaIncidencia
+                    {
+                        Descripcion = "Nacional"
+                    },
                    new AreaIncidencia
+                   {
+                       Descripcion = "Estatal"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Regional (variosmunicipios o estados)"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Municipal"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Local"
+                   }
+                );
+                #endregion
+            }
+
+            if (!context.Impacto.Any())
+            {
+                #region Impacto
+                context.Impacto.AddRange(
+
+                   new Impacto
                    {
                        Descripcion = "Adaptación al Cambio Climático"
                    },
-                   new AreaIncidencia
+                   new Impacto
                    {
                        Descripcion = "Mitigación de gases de efecto invernadero"
                    },
-                   new AreaIncidencia
+                   new Impacto
                    {
                        Descripcion = "Producción sostenible"
                    },
-                   new AreaIncidencia
+                   new Impacto
                    {
                        Descripcion = "Conservación de la biodiversidad"
                    },
-                   new AreaIncidencia
+                   new Impacto
                    {
                        Descripcion = "Conservación del suelo"
                    },
-                   new AreaIncidencia
+                   new Impacto
                    {
                        Descripcion = "Conservación del agua"
                    },
-                   new AreaIncidencia
+                   new Impacto
                    {
                        Descripcion = "Otra"
                    }
