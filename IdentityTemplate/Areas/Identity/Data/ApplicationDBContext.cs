@@ -21,6 +21,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<NivelResponsabilidad> NivelResponsabilidad { get; set; }
     public DbSet<PoliticaUsuario> PoliticaUsuario { get; set; }
     public DbSet<UnidadMeta> UnidadMeta { get; set; }
+    public DbSet<TipoSoprte> TipoSoprtes { get; set; }
     public DbSet<IdentityUserRole<string>> RolUsuario { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -283,6 +284,16 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.Property(um => um.Id).HasColumnName("id_unidad_meta").UseIdentityByDefaultColumn();
             b.Property(um => um.Nombre).HasColumnName("ln_nombre_unidad_meta").HasColumnType("varchar").HasMaxLength(256);
+        });
+
+        builder.Entity<TipoSoprte>(b =>
+        {
+            b.ToTable("tb_cat_tipo_soporte");
+
+            b.HasKey(um => um.Id).HasName("id_n_tipo_soporte");
+
+            b.Property(um => um.Id).HasColumnName("id_tipo_soporte").UseIdentityByDefaultColumn();
+            b.Property(um => um.Nombre).HasColumnName("ln_nombre_tipo_soprte").HasColumnType("varchar").HasMaxLength(256);
         });
         #endregion
     }

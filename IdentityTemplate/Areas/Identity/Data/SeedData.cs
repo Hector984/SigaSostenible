@@ -243,6 +243,43 @@ namespace IdentityTemplate.Areas.Identity.Data
 
                 #endregion
             }
+
+            if(!context.TipoSoprtes.Any())
+            {
+                #region Tipo de soporte
+                context.TipoSoprtes.AddRange(
+
+                    new TipoSoprte
+                    {
+                        Nombre = "PDF"
+                    },
+                    new TipoSoprte
+                    {
+                        Nombre = "Word"
+                    },
+                    new TipoSoprte
+                    {
+                        Nombre = "Excel"
+                    },
+                    new TipoSoprte
+                    {
+                        Nombre = "PPT"
+                    },
+                    new TipoSoprte
+                    {
+                        Nombre = "Imagen"
+                    },
+                    new TipoSoprte
+                    {
+                        Nombre = "Video"
+                    },
+                    new TipoSoprte
+                    {
+                        Nombre = "Audio"
+                    }
+                 );
+                #endregion
+            }
             else
             {
                 return;//La base de datos ya fue llenada
