@@ -1,6 +1,5 @@
 ﻿using IdentityTemplate.Data;
 using IdentityTemplate.Models.Catalogos;
-using IdentityTemplate.Models.VariablesDeSeguimiento;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -278,6 +277,43 @@ namespace IdentityTemplate.Areas.Identity.Data
                         Nombre = "Audio"
                     }
                  );
+                #endregion
+            }
+
+            if(!context.AreaIncidencia.Any())
+            {
+                #region Area incidencia
+                context.AreaIncidencia.AddRange(
+
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Adaptación al Cambio Climático"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Mitigación de gases de efecto invernadero"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Producción sostenible"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Conservación de la biodiversidad"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Conservación del suelo"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Conservación del agua"
+                   },
+                   new AreaIncidencia
+                   {
+                       Descripcion = "Otra"
+                   }
+                );
                 #endregion
             }
             else

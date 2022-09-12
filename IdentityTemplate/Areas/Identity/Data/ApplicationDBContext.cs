@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using IdentityTemplate.Models.Catalogos;
 using IdentityTemplate.Models.Intermedios;
-using IdentityTemplate.Models.VariablesDeSeguimiento;
 
 namespace IdentityTemplate.Data;
 
@@ -22,6 +21,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<PoliticaUsuario> PoliticaUsuario { get; set; }
     public DbSet<UnidadMeta> UnidadMeta { get; set; }
     public DbSet<TipoSoprte> TipoSoprtes { get; set; }
+    public DbSet<AreaIncidencia> AreaIncidencia { get; set; }
     public DbSet<IdentityUserRole<string>> RolUsuario { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -294,6 +294,16 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.Property(um => um.Id).HasColumnName("id_tipo_soporte").UseIdentityByDefaultColumn();
             b.Property(um => um.Nombre).HasColumnName("ln_nombre_tipo_soprte").HasColumnType("varchar").HasMaxLength(256);
+        });
+
+        builder.Entity<AreaIncidencia>(b =>
+        {
+            b.ToTable("tb_cat_area_incidencia");
+
+            b.HasKey(um => um.Id).HasName("id_n_area_incidencia");
+
+            b.Property(um => um.Id).HasColumnName("id_area_incidencia").UseIdentityByDefaultColumn();
+            b.Property(um => um.Descripcion).HasColumnName("ln_descripcion_area").HasColumnType("varchar").HasMaxLength(256);
         });
         #endregion
     }

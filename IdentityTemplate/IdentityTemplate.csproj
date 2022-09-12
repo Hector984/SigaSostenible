@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\VariablesDeSeguimiento\" />
     <Folder Include="Validaciones\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

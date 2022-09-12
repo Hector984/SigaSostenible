@@ -1,4 +1,4 @@
-﻿namespace IdentityTemplate.Models.VariablesDeSeguimiento
+﻿namespace IdentityTemplate.Models.Catalogos
 {
     public class TipoSoprte
     {
