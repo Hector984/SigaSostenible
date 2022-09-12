@@ -113,142 +113,142 @@ namespace IdentityTemplate.Areas.Identity.Data
         #region seed database method
         public static void SeedDB(ApplicationDBContext context)
         {
-            if (context.TipoInstituciones.Any())
+            if (!context.TipoInstituciones.Any())
             {
-                return;   // DB has been seeded
-            }
+                #region Inserta las instituciones
+                context.TipoInstituciones.AddRange(
 
-            #region Inserta las instituciones
-            context.TipoInstituciones.AddRange(
-           
-                new TipoInstitucion
-                {
-                    NombreDeInstitucion = Institucion.Federal.ToString()
-                },
-                new TipoInstitucion
-                {
-                    NombreDeInstitucion = Institucion.Estatal.ToString()
-                },
-                 new TipoInstitucion
-                 {
-                     NombreDeInstitucion = Institucion.Municipal.ToString()
-                 },
-                 new TipoInstitucion
-                 {
-                     NombreDeInstitucion = Institucion.Productores.ToString()
-                 },
-                 new TipoInstitucion
-                 {
-                     NombreDeInstitucion = Institucion.Academia.ToString()
-                 },
-                 new TipoInstitucion
-                 {
-                     NombreDeInstitucion = Institucion.SociedadCivil.ToString()
-                 }
-             );
-            #endregion
-
-
-            if (context.NivelesSeguimiento.Any())
-            {
-                return;   // DB has been seeded
-            }
-
-            #region Inserta los niveles de seguimiento
-            context.NivelesSeguimiento.AddRange(
+                    new TipoInstitucion
+                    {
+                        NombreDeInstitucion = Institucion.Federal.ToString()
+                    },
+                    new TipoInstitucion
+                    {
+                        NombreDeInstitucion = Institucion.Estatal.ToString()
+                    },
+                     new TipoInstitucion
+                     {
+                         NombreDeInstitucion = Institucion.Municipal.ToString()
+                     },
+                     new TipoInstitucion
+                     {
+                         NombreDeInstitucion = Institucion.Productores.ToString()
+                     },
+                     new TipoInstitucion
+                     {
+                         NombreDeInstitucion = Institucion.Academia.ToString()
+                     },
+                     new TipoInstitucion
+                     {
+                         NombreDeInstitucion = Institucion.SociedadCivil.ToString()
+                     }
+                 );
+                #endregion
+            } 
             
-                new NivelSeguimiento
-                {
-                    NivelDeSeguimiento = Niveles.Nacional.ToString()
-                },
-
-                new NivelSeguimiento
-                {
-                    NivelDeSeguimiento = Niveles.Estatal.ToString()
-                },
-                 new NivelSeguimiento
-                 {
-                     NivelDeSeguimiento = Niveles.Regional.ToString()
-                 },
-                 new NivelSeguimiento
-                 {
-                     NivelDeSeguimiento = Niveles.Municipal.ToString()
-                 },
-                 new NivelSeguimiento
-                 {
-                     NivelDeSeguimiento = Niveles.Local.ToString()
-                 }
-             );
-            #endregion
-
-            if (context.UnidadMeta.Any())
+            if(!context.NivelesSeguimiento.Any())
             {
-                return;   // DB has been seeded
+                #region Inserta los niveles de seguimiento
+                context.NivelesSeguimiento.AddRange(
+
+                    new NivelSeguimiento
+                    {
+                        NivelDeSeguimiento = Niveles.Nacional.ToString()
+                    },
+
+                    new NivelSeguimiento
+                    {
+                        NivelDeSeguimiento = Niveles.Estatal.ToString()
+                    },
+                     new NivelSeguimiento
+                     {
+                         NivelDeSeguimiento = Niveles.Regional.ToString()
+                     },
+                     new NivelSeguimiento
+                     {
+                         NivelDeSeguimiento = Niveles.Municipal.ToString()
+                     },
+                     new NivelSeguimiento
+                     {
+                         NivelDeSeguimiento = Niveles.Local.ToString()
+                     }
+                 );
+                #endregion
             }
 
-            #region Catalogo Unidad de la Meta
 
-            context.UnidadMeta.AddRange(
+            if (!context.UnidadMeta.Any())
+            {
+                #region Catalogo Unidad de la Meta
 
-                new UnidadMeta
-                {
-                    Nombre = "Productores"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Hectáreas"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Informes-reportes"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Diagnósticos"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Reuniones"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Proyectos"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Catálogos"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Encuestas"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Areas piloto"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Personas capacitadas"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Grupos o redes"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Talleres"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Jardines-Huertos de polinizadores"
-                },
-                new UnidadMeta
-                {
-                    Nombre = "Marcos normativos"
-                }
-             );
+                context.UnidadMeta.AddRange(
 
-            #endregion
+                    new UnidadMeta
+                    {
+                        Nombre = "Productores"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Hectáreas"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Informes-reportes"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Diagnósticos"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Reuniones"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Proyectos"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Catálogos"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Encuestas"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Areas piloto"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Personas capacitadas"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Grupos o redes"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Talleres"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Jardines-Huertos de polinizadores"
+                    },
+                    new UnidadMeta
+                    {
+                        Nombre = "Marcos normativos"
+                    }
+                 );
+
+                #endregion
+            }
+            else
+            {
+                return;//La base de datos ya fue llenada
+            }
+
+
             context.SaveChanges();
 
         }
