@@ -1,5 +1,6 @@
 ﻿using IdentityTemplate.Data;
 using IdentityTemplate.Models.Catalogos;
+using IdentityTemplate.Models.VariablesDeSeguimiento;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -180,7 +181,74 @@ namespace IdentityTemplate.Areas.Identity.Data
              );
             #endregion
 
+            if (context.UnidadMeta.Any())
+            {
+                return;   // DB has been seeded
+            }
 
+            #region Catalogo Unidad de la Meta
+
+            context.UnidadMeta.AddRange(
+
+                new UnidadMeta
+                {
+                    Nombre = "Productores"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Hectáreas"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Informes-reportes"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Diagnósticos"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Reuniones"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Proyectos"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Catálogos"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Encuestas"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Areas piloto"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Personas capacitadas"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Grupos o redes"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Talleres"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Jardines-Huertos de polinizadores"
+                },
+                new UnidadMeta
+                {
+                    Nombre = "Marcos normativos"
+                }
+             );
+
+            #endregion
             context.SaveChanges();
 
         }

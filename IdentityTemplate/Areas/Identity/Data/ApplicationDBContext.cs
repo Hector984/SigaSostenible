@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using IdentityTemplate.Models.Catalogos;
 using IdentityTemplate.Models.Intermedios;
+using IdentityTemplate.Models.VariablesDeSeguimiento;
 
 namespace IdentityTemplate.Data;
 
@@ -19,6 +20,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<TipoInstitucion> TipoInstituciones { get; set; }
     public DbSet<NivelResponsabilidad> NivelResponsabilidad { get; set; }
     public DbSet<PoliticaUsuario> PoliticaUsuario { get; set; }
+    public DbSet<UnidadMeta> UnidadMeta { get; set; }
     public DbSet<IdentityUserRole<string>> RolUsuario { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -271,6 +273,18 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
         });
         #endregion Tablas catalogos
+
+        #region Variables de seguimiento
+        builder.Entity<UnidadMeta>(b =>
+        {
+            b.ToTable("tb_cat_unidad_meta");
+
+            b.HasKey(um => um.Id).HasName("id_n_unidad_meta");
+
+            b.Property(um => um.Id).HasColumnName("id_unidad_meta").UseIdentityByDefaultColumn();
+            b.Property(um => um.Nombre).HasColumnName("ln_nombre_unidad_meta").HasColumnType("varchar").HasMaxLength(256);
+        });
+        #endregion
     }
 
 
