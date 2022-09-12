@@ -282,6 +282,11 @@ namespace IdentityTemplate.Areas.Identity.Data
 
             if(!context.AreaIncidencia.Any())
             {
+
+            }
+
+            if(!context.AreaIncidencia.Any())
+            {
                 #region Area incidencia
                 context.AreaIncidencia.AddRange(
 

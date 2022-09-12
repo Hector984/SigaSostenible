@@ -1,0 +1,18 @@
+﻿@model IdentityTemplate.Models.Catalogos.Politica
+
+
+@{
+    ViewData["Title"] = "Eliminar Política";
+}
+
+
+<h1 class="my-5">¿Estás seguro que deseas eliminar la Política @Model.NombrePolitica?</h1>
+
+<form asp-action="BorrarPolitica" asp-controller="Politica" method="post">
+
+    <input type="hidden" asp-for="PoliticaId"/>
+
+    <button type="submit" class="btn btn-success">Aceptar</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+
+</form>

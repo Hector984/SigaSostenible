@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using IdentityTemplate.Data;
-using Microsoft.AspNetCore.Authorization;
+﻿using IdentityTemplate.Data;
 using IdentityTemplate.Models.Catalogos;
+using IdentityTemplate.ViewModels.Catalogos;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityTemplate.Controllers
 {
-    [Authorize(Roles = "AdministradorNacional")]
     public class PoliticaController : Controller
     {
         private readonly ApplicationDBContext _context;
@@ -21,144 +15,103 @@ namespace IdentityTemplate.Controllers
             _context = context;
         }
 
-        // GET: PoliticaAccion
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.PoliticaAcciones.ToListAsync());
+
+            var politicas = await _context.PoliticaAcciones.ToListAsync();
+
+            politicas.OrderBy(p => p.PoliticaId);
+
+            return View(politicas);
         }
 
-        // GET: PoliticaAccion/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.PoliticaAcciones == null)
-            {
-                return NotFound();
-            }
-
-            var politicaAccion = await _context.PoliticaAcciones
-                .FirstOrDefaultAsync(m => m.PoliticaId == id);
-
-            if (politicaAccion == null)
-            {
-                return NotFound();
-            }
-
-            return View(politicaAccion);
-        }
-
-        // GET: PoliticaAccion/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Crear()
         {
             return View();
         }
 
-        // POST: PoliticaAccion/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PoliticaAccionId,NombrePoliticaAccion")] Politica politicaAccion)
+        public async Task<IActionResult> Crear(Politica politica)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(politicaAccion);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(politicaAccion);
-        }
 
-        // GET: PoliticaAccion/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.PoliticaAcciones == null)
+            if(!ModelState.IsValid)
             {
-                return NotFound();
+                return View(politica);
             }
 
-            var politicaAccion = await _context.PoliticaAcciones.FindAsync(id);
-            if (politicaAccion == null)
-            {
-                return NotFound();
-            }
-            return View(politicaAccion);
-        }
+            _context.PoliticaAcciones.Add(politica);
 
-        // POST: PoliticaAccion/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PoliticaAccionId,NombrePoliticaAccion")] Politica politicaAccion)
-        {
-            if (id != politicaAccion.PoliticaId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(politicaAccion);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PoliticaAccionExists(politicaAccion.PoliticaId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(politicaAccion);
-        }
-
-        // GET: PoliticaAccion/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.PoliticaAcciones == null)
-            {
-                return NotFound();
-            }
-
-            var politicaAccion = await _context.PoliticaAcciones
-                .FirstOrDefaultAsync(m => m.PoliticaId == id);
-            if (politicaAccion == null)
-            {
-                return NotFound();
-            }
-
-            return View(politicaAccion);
-        }
-
-        // POST: PoliticaAccion/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.PoliticaAcciones == null)
-            {
-                return Problem("Entity set 'ApplicationDBContext.PoliticaAcciones'  is null.");
-            }
-            var politicaAccion = await _context.PoliticaAcciones.FindAsync(id);
-            if (politicaAccion != null)
-            {
-                _context.PoliticaAcciones.Remove(politicaAccion);
-            }
-            
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("Index");
         }
 
-        private bool PoliticaAccionExists(int id)
+        [HttpGet]
+        public async Task<IActionResult> Editar(int id)
         {
-          return _context.PoliticaAcciones.Any(e => e.PoliticaId == id);
+            var politica = await _context.PoliticaAcciones.FindAsync(id);
+
+            if(politica is null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(politica);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(int id, Politica politica)
+        {
+
+            if(id != politica.PoliticaId)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return View(politica);
+            }
+
+            _context.Update(politica);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Borrar(int id)
+        {
+            var politica = await _context.PoliticaAcciones.FindAsync(id);
+
+            if (politica is null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View(politica);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BorrarPolitica(int politicaId)
+        {
+
+            var politicaAccion = await _context.PoliticaAcciones.FindAsync(politicaId);
+
+            if(politicaAccion is null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            _context.Remove(politicaAccion);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
