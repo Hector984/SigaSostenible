@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using IdentityTemplate.Models.Catalogos;
 using IdentityTemplate.Models.Intermedios;
-using IdentityTemplate.Models.VariablesDeSeguimiento;
+using IdentityTemplate.Models.VariableSesguimiento;
 
 namespace IdentityTemplate.Data;
 
@@ -26,6 +26,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<Impacto> Impacto { get; set; }
     public DbSet<IdentityUserRole<string>> RolUsuario { get; set; }
     public DbSet<EjeTematico> EjesTematicos { get; set; }
+    public DbSet<LineaEstrategica> LineasEstrategicas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
