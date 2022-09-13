@@ -48,9 +48,9 @@ public class ApplicationUser : IdentityUser
     [Display(Name = "Teléfono Celular")]
     public string TelefonoPersonal { get; set; }
 
-    [Column("n_tipo_institucion", Order = 14)]
+    [Column("fk_usuario_institucion", Order = 14)]
     [Display(Name = "Tipo de Institución")]
-    public int TipoInstitucionId { get; set; }
+    public int? TipoInstitucionId { get; set; }
     public virtual TipoInstitucion TipoInstitucion { get; set; }
     [Display(Name = "Nombre de la Institución")]
     public string NombreInstitucion { get; set; }
@@ -58,14 +58,13 @@ public class ApplicationUser : IdentityUser
     [Display(Name = "Cargo Laboral")]
     public string CargoLaboral { get; set; }
 
-    [Column("n_nivel_seguimiento", Order = 17)]
+    [Column("fk_usuario_nivel_seg", Order = 17)]
     [Display(Name = "Nivel de Seguimiento")]
-    public int NivelSeguimientoId { get; set; }
+    public int? NivelSeguimientoId { get; set; }
     public virtual NivelSeguimiento NivelSeguimiento { get; set; }
 
     //[Column("n_nivel_responsabilidad", Order = 18)]
     //[Display(Name = "Nivel de Reponsabilidad")]
-    //[NotMapped]
     //public int NivelResponsabilidadId { get; set; }
     //public virtual NivelResponsabilidad NivelResponsabilidad { get; set; }
 

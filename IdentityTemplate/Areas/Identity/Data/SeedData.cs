@@ -47,7 +47,7 @@ namespace IdentityTemplate.Areas.Identity.Data
                     NombreInstitucion = "Agricultura",
                     TelefonoPersonal = "5512345678",
                     PhoneNumber = "5512345678",
-                    NivelResponsabilidadId = 1,
+                    //NivelResponsabilidadId = 1,
                     NivelSeguimientoId = 1,
                     TipoInstitucionId = 1
                 };

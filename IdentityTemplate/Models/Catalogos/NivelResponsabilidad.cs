@@ -6,6 +6,6 @@ namespace IdentityTemplate.Models.Catalogos
     {
         public int NivelResponsabilidadId { get; set; }
         public string NivelDeResponsabilidad { get; set; }
-        public virtual List<ApplicationUser> Usuario { get; set; }
+        //public virtual List<ApplicationUser> Usuario { get; set; }
     }
 }

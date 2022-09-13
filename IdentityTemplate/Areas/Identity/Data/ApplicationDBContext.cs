@@ -80,7 +80,9 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
             b.HasOne(t => t.TipoInstitucion).WithMany(u => u.Usuario).HasForeignKey(f => f.TipoInstitucionId)
              .HasConstraintName("fk_usuario_institucion");
 
-            b.Property(u => u.TipoInstitucionId).HasDefaultValue(null);
+            b.Property(u => u.TipoInstitucionId).HasColumnName("fk_usuario_institucion");
+
+            b.HasIndex(u => u.TipoInstitucionId).HasDatabaseName("idx05_usuario");
 
             b.Property(u => u.NombreInstitucion).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_nombre_institucion").HasColumnOrder(15);
 
@@ -89,29 +91,33 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
             b.HasOne(t => t.NivelSeguimiento).WithMany(u => u.Usuario).HasForeignKey(f => f.NivelSeguimientoId)
              .HasConstraintName("fk_usuario_nivel_seg").IsRequired(false);
 
-            b.Property(u => u.NivelSeguimientoId).HasDefaultValue(null);
+            b.Property(u => u.NivelSeguimientoId).HasColumnName("fk_usuario_nivel_seg");
 
+            b.HasIndex(u => u.NivelSeguimientoId).HasDatabaseName("idx04_usuario");
+
+            #region Propiedad no usada por el momento
             //b.HasOne(t => t.NivelResponsabilidad).WithMany(u => u.Usuario).HasForeignKey(f => f.NivelResponsabilidadId)
             // .HasConstraintName("fk_usuario_nivel_resp").IsRequired(false);
 
             //b.Property(u => u.NivelResponsabilidadId).HasDefaultValue(null);
             //b.Ignore(u => u.NivelResponsabilidadId);
+            #endregion
 
-            b.Property(u => u.PasswordHash).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_hash_contrasenia").HasColumnOrder(19);
+            b.Property(u => u.PasswordHash).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_hash_contrasenia").HasColumnOrder(18);
 
-            b.Property(u => u.SecurityStamp).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_security_stamp").HasColumnOrder(20);
+            b.Property(u => u.SecurityStamp).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_security_stamp").HasColumnOrder(19);
 
-            b.Property(u => u.ConcurrencyStamp).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_concurrency_stamp").HasColumnOrder(21);
+            b.Property(u => u.ConcurrencyStamp).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_concurrency_stamp").HasColumnOrder(20);
 
             b.Ignore(u => u.PhoneNumberConfirmed);
 
-            b.Property(u => u.TwoFactorEnabled).HasColumnType("boolean").HasColumnName("ind_two_factor_enabled").HasColumnOrder(22);
+            b.Property(u => u.TwoFactorEnabled).HasColumnType("boolean").HasColumnName("ind_two_factor_enabled").HasColumnOrder(21);
 
             b.Ignore(u => u.LockoutEnd);
 
-            b.Property(u => u.LockoutEnabled).HasColumnType("boolean").HasColumnName("ind_bloqueo_habilitado").HasColumnOrder(23);
+            b.Property(u => u.LockoutEnabled).HasColumnType("boolean").HasColumnName("ind_bloqueo_habilitado").HasColumnOrder(22);
 
-            b.Property(u => u.AccessFailedCount).HasColumnName("nu_num_acceso_fallido").HasColumnOrder(24);
+            b.Property(u => u.AccessFailedCount).HasColumnName("nu_num_acceso_fallido").HasColumnOrder(23);
 
         });
 
@@ -204,9 +210,9 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.HasKey(ti => ti.TipoInstitucionId).HasName("id_n_tipo_institucion");
 
-            b.Property(ti => ti.TipoInstitucionId).HasColumnName("idx01_tipo_institucion").UseIdentityByDefaultColumn();
+            b.Property(ti => ti.TipoInstitucionId).HasColumnName("id_n_tipo_institucion").UseIdentityByDefaultColumn();
 
-            b.HasIndex(ti => ti.NombreDeInstitucion).HasDatabaseName("ln_institucion_ind").IsUnique();
+            b.HasIndex(ti => ti.NombreDeInstitucion).HasDatabaseName("idx01_tipo_institucion").IsUnique();
 
             b.Property(ti => ti.NombreDeInstitucion).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_institucion");
         });
@@ -217,7 +223,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.HasKey(ns => ns.NivelSeguimientoId).HasName("id_n_nivel_seguimiento");
 
-            b.Property(ns => ns.NivelSeguimientoId).HasColumnName("id_nivel_seguimiento").UseIdentityByDefaultColumn();
+            b.Property(ns => ns.NivelSeguimientoId).HasColumnName("id_n_nivel_seguimiento").UseIdentityByDefaultColumn();
 
             b.HasIndex(ns => ns.NivelDeSeguimiento).HasDatabaseName("idx01_nivel_seguimiento").IsUnique();
 
@@ -230,7 +236,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.HasKey(pa => pa.PoliticaId).HasName("id_n_politica");
 
-            b.Property(pa => pa.PoliticaId).HasColumnName("id_politica").UseIdentityByDefaultColumn();
+            b.Property(pa => pa.PoliticaId).HasColumnName("id_n_politica").UseIdentityByDefaultColumn();
 
             b.HasIndex(pa => pa.NombrePolitica)
              .HasDatabaseName("idx01_politica").IsUnique();
@@ -285,7 +291,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.HasKey(um => um.Id).HasName("id_n_unidad_meta");
 
-            b.Property(um => um.Id).HasColumnName("id_unidad_meta").UseIdentityByDefaultColumn();
+            b.Property(um => um.Id).HasColumnName("id_n_unidad_meta").UseIdentityByDefaultColumn();
             b.Property(um => um.Nombre).HasColumnName("ln_nombre_unidad_meta").HasColumnType("varchar").HasMaxLength(256);
         });
 
@@ -295,7 +301,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.HasKey(um => um.Id).HasName("id_n_tipo_soporte");
 
-            b.Property(um => um.Id).HasColumnName("id_tipo_soporte").UseIdentityByDefaultColumn();
+            b.Property(um => um.Id).HasColumnName("id_n_tipo_soporte").UseIdentityByDefaultColumn();
             b.Property(um => um.Nombre).HasColumnName("ln_nombre_tipo_soprte").HasColumnType("varchar").HasMaxLength(256);
         });
 
@@ -305,7 +311,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.HasKey(um => um.Id).HasName("id_n_area_incidencia");
 
-            b.Property(um => um.Id).HasColumnName("id_area_incidencia").UseIdentityByDefaultColumn();
+            b.Property(um => um.Id).HasColumnName("id_n_area_incidencia").UseIdentityByDefaultColumn();
             b.Property(um => um.Descripcion).HasColumnName("ln_descripcion_area").HasColumnType("varchar").HasMaxLength(256);
         });
 
@@ -315,7 +321,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.HasKey(um => um.Id).HasName("id_n_impacto");
 
-            b.Property(um => um.Id).HasColumnName("id_impacto").UseIdentityByDefaultColumn();
+            b.Property(um => um.Id).HasColumnName("id_n_impacto").UseIdentityByDefaultColumn();
             b.Property(um => um.Descripcion).HasColumnName("ln_descripcion_impacto").HasColumnType("varchar").HasMaxLength(256);
         });
 
@@ -325,13 +331,15 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.HasKey(p => p.Id).HasName("id_n_eje_tematico");
 
-            b.Property(p => p.Id).HasColumnName("id_eje_tematico").UseIdentityByDefaultColumn();
+            b.Property(p => p.Id).HasColumnName("id_n_eje_tematico").UseIdentityByDefaultColumn();
             b.Property(p => p.Nombre).HasColumnName("ln_descripcion_impacto").HasColumnType("text");
 
             b.HasOne(t => t.Politica).WithMany(u => u.EjesTematicos).HasForeignKey(f => f.PoliticaId)
              .HasConstraintName("fk_politica_eje_tematico").IsRequired();
 
-            b.Property(u => u.PoliticaId);
+            b.Property(u => u.PoliticaId).HasColumnName("fk_politica_eje_tematico");
+
+            b.HasIndex(p => p.PoliticaId).HasDatabaseName("idx01_eje_tematico");
         });
         #endregion
     }
