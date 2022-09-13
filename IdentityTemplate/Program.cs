@@ -14,6 +14,7 @@ var connectionString = builder.Configuration.GetConnectionString("ApplicationDBC
 builder.Services.AddTransient<ICatalogosHelpers, CatalogosHelpers>();
 builder.Services.AddTransient<IServicioCURP, ServicioCURP>();
 builder.Services.AddSingleton<IServicioCorreo, ServicioCorreo>();
+builder.Services.AddAutoMapper(typeof(Program));
 #endregion
 
 

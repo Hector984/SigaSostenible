@@ -9,7 +9,7 @@
 
 <a class="btn btn-primary my-4" asp-action="Crear" asp-controller="Politica">Crear</a>
 
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -30,7 +30,7 @@
               </a>
 
               <a class="btn btn-danger" asp-action="Borrar" asp-controller="Politica" asp-route-id="@politica.PoliticaId">
-                  <i class="bi bi-trash3-fill"></i>
+                  <i class="bi bi-trash-fill"></i>
               </a>
           </td>
         </tr>
@@ -38,3 +38,7 @@
 
   </tbody>
 </table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

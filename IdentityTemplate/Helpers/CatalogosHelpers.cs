@@ -15,6 +15,7 @@ namespace IdentityTemplate.Helpers
         Task<IEnumerable<SelectListItem>> ObtenerPoliticas();
         Task<IEnumerable<SelectListItem>> ObtenerRol(ApplicationUser usuario);
         Task<IEnumerable<SelectListItem>> ObtenerTipoInstituciones();
+        Task<IEnumerable<SelectListItem>> ObtenerUnidadesMeta();
     }
 
     public class CatalogosHelpers : ICatalogosHelpers
@@ -81,6 +82,13 @@ namespace IdentityTemplate.Helpers
 
             }
 
+        }
+
+        public async Task<IEnumerable<SelectListItem>> ObtenerUnidadesMeta()
+        {
+            var unidades = await _applicationDBContext.UnidadMeta.ToListAsync();
+
+            return unidades.Select(x => new SelectListItem ( x.Nombre, x.Id.ToString() ));
         }
     }
 }

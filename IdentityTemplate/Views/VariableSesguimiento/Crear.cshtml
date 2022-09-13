@@ -1,0 +1,67 @@
+﻿@model IdentityTemplate.ViewModels.VariablesSeguimiento.VariableSeguimientoViewModel
+
+@{
+    ViewData["Title"] = "Crear Variable de Seguimiento";
+}
+
+
+<h3 class="btn bg-success text-white mb-3">Variables de segumiento</h3>
+
+<h3 class="mb-3">Ingresar Variable de Seguimiento</h3>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="Crear">
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Nombre"></label>
+        <input type="text" class="form-control" asp-for="Nombre"/>
+        <span class="text-danger" asp-validation-for="Nombre"></span>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-12 col-md-6">
+            <label class="form-label" asp-for="Meta"></label>
+            <input type="number" class="form-control" asp-for="Meta"/>
+            <span class="text-danger" asp-validation-for="Meta"></span>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <label class="form-label" asp-for="UnidadMetaId"></label>
+           <select class="form-select" asp-items="Model.UnidadesMeta" asp-for="UnidadMetaId"></select>
+            <span class="text-danger" asp-validation-for="UnidadMetaId"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-12 col-md-6">
+            <label class="form-label" asp-for="InicioAcciones"></label>
+            <input type="text" class="yearpicker text-center form-control" asp-for="InicioAcciones" id="year">
+            <span class="text-danger" asp-validation-for="InicioAcciones"></span>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <label class="form-label" asp-for="FinAcciones"></label>
+            <input type="text" class="yearpicker text-center form-control" asp-for="FinAcciones">
+            <span class="text-danger" asp-validation-for="FinAcciones"></span>
+        </div>
+    </div>
+
+    
+
+
+    <button class="btn btn-danger">Guardar</button>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        $('.yearpicker').yearpicker();
+
+        $('#year').val(new Date().getFullYear());
+
+    </script>
+}
