@@ -10,6 +10,7 @@ namespace IdentityTemplate.Models.VariableSesguimiento
         #region Propiedades de nevegacion
         public int EjeTematicoId { get; set; }
         public EjeTematico EjeTematico { get; set; }
+        public IEnumerable<Accion> Acciones { get; set; }
         #endregion
     }
 }
