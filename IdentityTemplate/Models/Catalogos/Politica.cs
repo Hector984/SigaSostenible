@@ -16,7 +16,7 @@ namespace IdentityTemplate.Models.Catalogos
         public IEnumerable<PoliticaUsuario> PoliticaUsuario { get; set; }
 
         public IEnumerable<EjeTematico> EjesTematicos { get; set; }
-        public IEnumerable<LineaEstrategica> LineasEstrategicas { get; set; }
+        
     }
 
 }

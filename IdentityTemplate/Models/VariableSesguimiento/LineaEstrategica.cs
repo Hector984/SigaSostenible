@@ -8,8 +8,8 @@ namespace IdentityTemplate.Models.VariableSesguimiento
         public string Nombre { get; set; }
 
         #region Propiedades de nevegacion
-        public int PoliticaId { get; set; }
-        public Politica Politica { get; set; }
+        public int EjeTematicoId { get; set; }
+        public EjeTematico EjeTematico { get; set; }
         #endregion
     }
 }

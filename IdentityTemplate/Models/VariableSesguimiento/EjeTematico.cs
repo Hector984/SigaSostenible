@@ -11,6 +11,7 @@ namespace IdentityTemplate.Models.VariableSesguimiento
 
         public int PoliticaId { get; set; }
         public Politica Politica { get; set; }
+        public IEnumerable<LineaEstrategica> LineasEstrategicas { get; set; }
 
         #endregion
     }

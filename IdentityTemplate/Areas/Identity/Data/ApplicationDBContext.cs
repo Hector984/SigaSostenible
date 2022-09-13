@@ -333,14 +333,31 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
             b.HasKey(p => p.Id).HasName("id_n_eje_tematico");
 
             b.Property(p => p.Id).HasColumnName("id_n_eje_tematico").UseIdentityByDefaultColumn();
-            b.Property(p => p.Nombre).HasColumnName("ln_descripcion_impacto").HasColumnType("text");
+            b.Property(p => p.Nombre).HasColumnName("ln_descripcion_eje").HasColumnType("text");
 
-            b.HasOne(t => t.Politica).WithMany(u => u.EjesTematicos).HasForeignKey(f => f.PoliticaId)
+            b.HasOne(o => o.Politica).WithMany(m => m.EjesTematicos).HasForeignKey(f => f.PoliticaId)
              .HasConstraintName("fk_politica_eje_tematico").IsRequired();
 
-            b.Property(u => u.PoliticaId).HasColumnName("fk_politica_eje_tematico");
+            b.Property(p => p.PoliticaId).HasColumnName("fk_politica_eje_tematico");
 
             b.HasIndex(p => p.PoliticaId).HasDatabaseName("idx01_eje_tematico");
+        });
+
+        builder.Entity<LineaEstrategica>(b =>
+        {
+            b.ToTable("tb_cat_linea_estrategica");
+
+            b.HasKey(p => p.Id).HasName("id_n_linea_estrategica");
+
+            b.Property(p => p.Id).HasColumnName("id_n_linea_estrategica").UseIdentityByDefaultColumn();
+            b.Property(p => p.Nombre).HasColumnName("ln_desc_estrategia").HasColumnType("text");
+
+            b.HasOne(o => o.EjeTematico).WithMany(m => m.LineasEstrategicas).HasForeignKey(f => f.EjeTematicoId)
+             .HasConstraintName("fk_eje_tematico_lin_estrate").IsRequired();
+
+            b.Property(p => p.EjeTematicoId).HasColumnName("fk_eje_tematico_lin_estrate");
+
+            b.HasIndex(p => p.EjeTematicoId).HasDatabaseName("idx01_linea_estrateg");
         });
         #endregion
     }
