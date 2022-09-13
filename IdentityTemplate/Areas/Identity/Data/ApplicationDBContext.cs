@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using IdentityTemplate.Models.Catalogos;
 using IdentityTemplate.Models.Intermedios;
+using IdentityTemplate.Models.VariablesDeSeguimiento;
 
 namespace IdentityTemplate.Data;
 
@@ -24,6 +25,7 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<AreaIncidencia> AreaIncidencia { get; set; }
     public DbSet<Impacto> Impacto { get; set; }
     public DbSet<IdentityUserRole<string>> RolUsuario { get; set; }
+    public DbSet<EjeTematico> EjesTematicos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -89,11 +91,11 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.Property(u => u.NivelSeguimientoId).HasDefaultValue(null);
 
-            b.HasOne(t => t.NivelResponsabilidad).WithMany(u => u.Usuario).HasForeignKey(f => f.NivelResponsabilidadId)
-             .HasConstraintName("fk_usuario_nivel_resp").IsRequired(false);
+            //b.HasOne(t => t.NivelResponsabilidad).WithMany(u => u.Usuario).HasForeignKey(f => f.NivelResponsabilidadId)
+            // .HasConstraintName("fk_usuario_nivel_resp").IsRequired(false);
 
             //b.Property(u => u.NivelResponsabilidadId).HasDefaultValue(null);
-            b.Ignore(u => u.NivelResponsabilidadId);
+            //b.Ignore(u => u.NivelResponsabilidadId);
 
             b.Property(u => u.PasswordHash).HasColumnType("varchar").HasMaxLength(256).HasColumnName("ln_hash_contrasenia").HasColumnOrder(19);
 
@@ -315,6 +317,21 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.Property(um => um.Id).HasColumnName("id_impacto").UseIdentityByDefaultColumn();
             b.Property(um => um.Descripcion).HasColumnName("ln_descripcion_impacto").HasColumnType("varchar").HasMaxLength(256);
+        });
+
+        builder.Entity<EjeTematico>(b =>
+        {
+            b.ToTable("tb_cat_eje_tematico");
+
+            b.HasKey(p => p.Id).HasName("id_n_eje_tematico");
+
+            b.Property(p => p.Id).HasColumnName("id_eje_tematico").UseIdentityByDefaultColumn();
+            b.Property(p => p.Nombre).HasColumnName("ln_descripcion_impacto").HasColumnType("text");
+
+            b.HasOne(t => t.Politica).WithMany(u => u.EjesTematicos).HasForeignKey(f => f.PoliticaId)
+             .HasConstraintName("fk_politica_eje_tematico").IsRequired();
+
+            b.Property(u => u.PoliticaId);
         });
         #endregion
     }

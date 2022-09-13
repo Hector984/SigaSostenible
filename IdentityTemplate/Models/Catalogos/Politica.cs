@@ -1,4 +1,5 @@
 ﻿using IdentityTemplate.Models.Intermedios;
+using IdentityTemplate.Models.VariablesDeSeguimiento;
 using System.ComponentModel.DataAnnotations;
 
 namespace IdentityTemplate.Models.Catalogos
@@ -13,6 +14,8 @@ namespace IdentityTemplate.Models.Catalogos
         public string NombrePolitica { get; set; }
 
         public IEnumerable<PoliticaUsuario> PoliticaUsuario { get; set; }
+
+        public IEnumerable<EjeTematico> EjesTematicos { get; set; }
     }
 
 }
