@@ -364,19 +364,19 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
         builder.Entity<Accion>(b =>
         {
-            b.ToTable("tb_cat_linea_estrategica");
+            b.ToTable("tb_cat_accion");
 
-            b.HasKey(p => p.Id).HasName("id_n_linea_estrategica");
+            b.HasKey(p => p.Id).HasName("id_n_accion");
 
-            b.Property(p => p.Id).HasColumnName("id_n_linea_estrategica").UseIdentityByDefaultColumn();
-            b.Property(p => p.Nombre).HasColumnName("ln_desc_estrategia").HasColumnType("text");
+            b.Property(p => p.Id).HasColumnName("id_n_accion").UseIdentityByDefaultColumn();
+            b.Property(p => p.Nombre).HasColumnName("ln_desc_accion").HasColumnType("text");
 
             b.HasOne(o => o.LineaEstrategica).WithMany(m => m.Acciones).HasForeignKey(f => f.LineaEstrategicaId)
              .HasConstraintName("fk_lin_estrategica_accion").IsRequired();
 
-            b.Property(p => p.LineaEstrategicaId).HasColumnName("fk_eje_tematico_lin_estrate");
+            b.Property(p => p.LineaEstrategicaId).HasColumnName("fk_lin_estrate_accion");
 
-            b.HasIndex(p => p.LineaEstrategicaId).HasDatabaseName("idx01_linea_estrateg");
+            b.HasIndex(p => p.LineaEstrategicaId).HasDatabaseName("idx01_accion");
         });
         #endregion
     }
