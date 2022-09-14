@@ -1,29 +1,54 @@
-﻿@model IdentityTemplate.Models.Catalogos.Politica
+﻿@model IdentityTemplate.ViewModels.VariablesSeguimiento.PoliticaBaseViewModel
 
 
 @{
     ViewData["Title"] = "Crear Politica";
 }
 
-<h1>Añadir Política o Acción</h1>
+<h1>Añadir Política, Eje Temático, Linéa Estrategíca o Acción</h1>
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#politica" type="button" role="tab" aria-controls="politica" aria-selected="true">Política</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#eje-tematico" type="button" role="tab" aria-controls="eje-tematico" aria-selected="false">Eje Temático</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" disabled>Disabled</button>
+  </li>
+</ul>
 
-<form asp-action="Crear" asp-controller="Politica" method="post">
+<div class="tab-content" id="pills-tabContent">
 
-    <div class="row">
-        <div class="col-12 mb-3">
-            <label class="form-label" asp-for="NombrePolitica"></label>
-            <input type="text" class="form-control" asp-for="NombrePolitica">
-            <span asp-validation-for="NombrePolitica" class="text-danger"></span>
-        </div>
-    </div>
+  <div class="tab-pane fade show active" id="politica" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
 
-    <button type="submit" class="btn btn-success">Crear</button>
-    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+      <div class="card card-body">
+        <partial name="~/Views/Parciales/_Politica.cshtml" />
+      </div>
+  </div>
 
-</form>
+  <div class="tab-pane fade" id="eje-tematico" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+
+      <div class="card card-body">
+        <partial name="~/Views/Parciales/_EjeTematico.cshtml" />
+      </div>
+  </div>
+  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">...</div>
+  <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">...</div>
+</div>
+
+<div class="collapse" id="politica">
+  
+  
+</div>
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

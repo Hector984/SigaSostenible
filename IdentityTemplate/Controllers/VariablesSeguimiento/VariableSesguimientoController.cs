@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using IdentityTemplate.Data;
 using IdentityTemplate.Helpers;
-using IdentityTemplate.Models.VariablesDeSeguimiento;
+using IdentityTemplate.Models.VariableSesguimiento;
 using IdentityTemplate.ViewModels.VariablesSeguimiento;
 using Microsoft.AspNetCore.Mvc;
 

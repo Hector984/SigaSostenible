@@ -240,10 +240,10 @@ public class ApplicationDBContext : IdentityDbContext<ApplicationUser>
 
             b.Property(pa => pa.PoliticaId).HasColumnName("id_n_politica").UseIdentityByDefaultColumn();
 
-            b.HasIndex(pa => pa.NombrePolitica)
+            b.HasIndex(pa => pa.Nombre)
              .HasDatabaseName("idx01_politica").IsUnique();
 
-            b.Property(pa => pa.NombrePolitica)
+            b.Property(pa => pa.Nombre)
              .HasColumnType("varchar")
              .HasMaxLength(256).HasColumnName("ln_politica");
         });

@@ -1,6 +1,9 @@
-﻿using IdentityTemplate.Data;
+﻿using AutoMapper;
+using IdentityTemplate.Data;
+using IdentityTemplate.Helpers;
 using IdentityTemplate.Models.Catalogos;
-using IdentityTemplate.ViewModels.Catalogos;
+using IdentityTemplate.Models.VariableSesguimiento;
+using IdentityTemplate.ViewModels.VariablesSeguimiento;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +12,14 @@ namespace IdentityTemplate.Controllers
     public class PoliticaController : Controller
     {
         private readonly ApplicationDBContext _context;
+        private readonly ICatalogosHelpers _catalogosHelpers;
+        private readonly IMapper _mapper;
 
-        public PoliticaController(ApplicationDBContext context)
+        public PoliticaController(ApplicationDBContext context, ICatalogosHelpers catalogosHelpers, IMapper mapper)
         {
             _context = context;
+            _catalogosHelpers = catalogosHelpers;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -27,13 +34,20 @@ namespace IdentityTemplate.Controllers
         }
 
         [HttpGet]
-        public IActionResult Crear()
+        public async Task<IActionResult> Crear()
         {
-            return View();
+            var politicas = await _catalogosHelpers.ObtenerPoliticas();
+
+            var modeloBasePolitica = new PoliticaBaseViewModel()
+            {
+                Politicas = politicas
+            };
+
+            return View(modeloBasePolitica);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Crear(Politica politica)
+        public async Task<IActionResult> Crear(PoliticaViewModel politica)
         {
 
             if(!ModelState.IsValid)
@@ -41,7 +55,26 @@ namespace IdentityTemplate.Controllers
                 return View(politica);
             }
 
-            _context.PoliticaAcciones.Add(politica);
+            var modeloPolitica = _mapper.Map<Politica>(politica);
+
+            _context.PoliticaAcciones.Add(modeloPolitica);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearEjeTematico(EjeTematicoViewModel politicaViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Crear", politicaViewModel);
+            }
+
+            var modeloEjeTematico = _mapper.Map<EjeTematico>(politicaViewModel);
+
+            _context.EjesTematicos.Add(modeloEjeTematico);
 
             await _context.SaveChangesAsync();
 

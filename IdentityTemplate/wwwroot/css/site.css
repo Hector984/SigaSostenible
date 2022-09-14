@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.nav-link {
+    color: #272829;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #D0021B;
+}

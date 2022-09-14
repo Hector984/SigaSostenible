@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using IdentityTemplate.Models.VariablesDeSeguimiento;
+using IdentityTemplate.Models.Catalogos;
+using IdentityTemplate.Models.VariableSesguimiento;
 using IdentityTemplate.ViewModels.VariablesSeguimiento;
 
 namespace IdentityTemplate.Servicios
@@ -9,6 +10,8 @@ namespace IdentityTemplate.Servicios
         public AutoMapperProfiles()
         {
             CreateMap<VariableSeguimientoViewModel, VariableSeguimiento>();
+            CreateMap<PoliticaViewModel, Politica>();
+            CreateMap<EjeTematicoViewModel, EjeTematico>();
         }
     }
 }

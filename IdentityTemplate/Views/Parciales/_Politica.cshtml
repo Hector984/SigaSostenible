@@ -1,18 +1,11 @@
-﻿@model IdentityTemplate.Models.Catalogos.Politica
+﻿@model IdentityTemplate.ViewModels.VariablesSeguimiento.PoliticaViewModel
 
 
 @{
-    ViewData["Title"] = "Editar Política o Acción";
 }
 
-<h1 class="mb-3">Editar Política o Acción</h1>
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
-<form asp-action="Editar" asp-controller="Politica" method="post">
-
-    <input type="hidden" asp-for="PoliticaId"/>
+<form asp-action="Crear" asp-controller="Politica" method="post">
 
     <div class="row">
         <div class="col-12 mb-3">
@@ -22,7 +15,7 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-success">Enviar</button>
+    <button type="submit" class="btn btn-success">Crear</button>
     <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
 
 </form>

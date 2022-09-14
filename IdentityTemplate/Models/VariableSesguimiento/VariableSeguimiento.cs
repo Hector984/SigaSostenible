@@ -1,6 +1,6 @@
 ﻿using IdentityTemplate.Models.Catalogos;
 
-namespace IdentityTemplate.Models.VariablesDeSeguimiento
+namespace IdentityTemplate.Models.VariableSesguimiento
 {
     public class VariableSeguimiento
     {
