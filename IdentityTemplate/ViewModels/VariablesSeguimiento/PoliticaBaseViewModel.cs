@@ -1,6 +1,6 @@
 ﻿namespace IdentityTemplate.ViewModels.VariablesSeguimiento
 {
-    public class PoliticaBaseViewModel : EjeTematicoViewModel
+    public class PoliticaBaseViewModel : AccionViewModel
     {
 
     }

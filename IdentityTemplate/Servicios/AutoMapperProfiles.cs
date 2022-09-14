@@ -12,6 +12,8 @@ namespace IdentityTemplate.Servicios
             CreateMap<VariableSeguimientoViewModel, VariableSeguimiento>();
             CreateMap<PoliticaViewModel, Politica>();
             CreateMap<EjeTematicoViewModel, EjeTematico>();
+            CreateMap<LineaEstrategicaViewModel, LineaEstrategica>();
+            CreateMap<AccionViewModel, Accion>();
         }
     }
 }

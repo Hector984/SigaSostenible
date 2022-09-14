@@ -1,0 +1,33 @@
+﻿@model IdentityTemplate.ViewModels.VariablesSeguimiento.LineaEstrategicaViewModel
+
+@{
+}
+
+<form asp-action="CrearLineaEstrategica" asp-controller="Politica" method="post">
+
+    <div class="mb-3">
+       <label class="form-label" asp-for="PoliticaId"></label>
+       <select class="form-select" asp-for="PoliticaId" asp-items="Model.Politicas"></select>
+       <span asp-validation-for="PoliticaId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+       <label class="form-label" asp-for="EjeTematicoId"></label>
+       <select class="form-select" asp-for="EjeTematicoId" asp-items="Model.EjesTematicos"></select>
+       <span asp-validation-for="EjeTematicoId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+       <label class="form-label" asp-for="Nombre"></label>
+       <input type="text" class="form-control" asp-for="Nombre">
+       <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Crear</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -37,10 +37,14 @@ namespace IdentityTemplate.Controllers
         public async Task<IActionResult> Crear()
         {
             var politicas = await _catalogosHelpers.ObtenerPoliticas();
+            var ejesTematicos = await _catalogosHelpers.ObtenerEjesTematicos();
+            var lineasEstrategicas = await _catalogosHelpers.ObtenerLineasEstrategicas();
 
             var modeloBasePolitica = new PoliticaBaseViewModel()
             {
-                Politicas = politicas
+                Politicas = politicas,
+                EjesTematicos = ejesTematicos,
+                LineasEstrategicas = lineasEstrategicas
             };
 
             return View(modeloBasePolitica);
@@ -75,6 +79,40 @@ namespace IdentityTemplate.Controllers
             var modeloEjeTematico = _mapper.Map<EjeTematico>(politicaViewModel);
 
             _context.EjesTematicos.Add(modeloEjeTematico);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearLineaEstrategica(LineaEstrategicaViewModel politicaViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Crear", politicaViewModel);
+            }
+
+            var modeloLineaEstrategica = _mapper.Map<LineaEstrategica>(politicaViewModel);
+
+            _context.LineasEstrategicas.Add(modeloLineaEstrategica);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearAccion(AccionViewModel politicaViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Crear", politicaViewModel);
+            }
+
+            var modeloAcciones = _mapper.Map<Accion>(politicaViewModel);
+
+            _context.Acciones.Add(modeloAcciones);
 
             await _context.SaveChangesAsync();
 

@@ -11,6 +11,7 @@ namespace IdentityTemplate.Helpers
     public interface ICatalogosHelpers
     {
         Task<IEnumerable<SelectListItem>> ObtenerEjesTematicos();
+        Task<IEnumerable<SelectListItem>> ObtenerLineasEstrategicas();
         Task<IEnumerable<SelectListItem>> ObtenerNivelesDeresponsabilidad();
         Task<IEnumerable<SelectListItem>> ObtenerNivelesDeSeguimiento();
         Task<IEnumerable<SelectListItem>> ObtenerPoliticas();
@@ -94,9 +95,16 @@ namespace IdentityTemplate.Helpers
 
         public async Task<IEnumerable<SelectListItem>> ObtenerEjesTematicos()
         {
-            var unidades = await _applicationDBContext.UnidadMeta.ToListAsync();
+            var ejesTematicos = await _applicationDBContext.EjesTematicos.ToListAsync();
 
-            return unidades.Select(x => new SelectListItem(x.Nombre, x.Id.ToString()));
+            return ejesTematicos.Select(x => new SelectListItem(x.Nombre, x.Id.ToString()));
+        }
+
+        public async Task<IEnumerable<SelectListItem>> ObtenerLineasEstrategicas()
+        {
+            var lineasEstrategicas = await _applicationDBContext.LineasEstrategicas.ToListAsync();
+
+            return lineasEstrategicas.Select(x => new SelectListItem(x.Nombre, x.Id.ToString()));
         }
     }
 }
